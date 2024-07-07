@@ -31,18 +31,28 @@
 }
 
 .navigate-button {
-  padding: 10px 20px;
+  padding: 10px 10px; /* More square padding */
   font-size: 18px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 4px;
+  border: 1px solid #000; /* Dark border */
+  background-color: #C0C0C0; /* Light gray background */
+  color: black; /* Black text */
   cursor: pointer;
   margin-left: 10px; /* Add margin to separate from URL input */
+  width: 100px; /* Fixed width for squarish appearance */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #808080; /* Gray border */
+  /* box-shadow: inset -1px -1px 0 0 #fff, inset 1px 1px 0 0 #000; Windows 95 style */
 }
 
 .navigate-button:hover {
-  background-color: #0056b3;
+  background-color: #808080; /* Darker gray on hover */
+}
+
+.navigate-button:active {
+  background-color: #404040; /* Darkest gray when active */
+  border-color: #202020; /* Darker border when active */
 }
 
 .content {

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import "./Browser.css"; // Import the CSS file for the Browser component
+// import "./Browser.css"; // Import the CSS file for the Browser component
 
 const Browser = () => {
   const [url, setUrl] = useState("");
   const [history, setHistory] = useState([]);
-  const [currentContent, setCurrentContent] = useState("");
+  const [currentContent, setCurrentContent] = useState("Welcome to the Browser! Enter a URL to get started.");
 
   const eurobankInfo = {
-    Host: "eurobank.eu",
-    Port: "Not specified",
-    Username: "Not specified",
-    Password: "aT6kZ7xNv9Fy1qLuRiJ3mSbOp4W8cV2g",
+    Username: "kris",
+    Password: "heheheha",
+    Host: "localhost",
+    Port: "1234"
   };
 
   const formatEurobankInfo = (info) => {
@@ -35,12 +35,17 @@ const Browser = () => {
   const urlMappings = {
     "https://www.google.com": "sundar pichai moment",
     "https://www.eurobank.eu/files": eurobankInfo,
+    "https://www.eurobank.eu": "ain't nothin around here",
   };
 
   const handleNavigate = (event) => {
     event.preventDefault();
     let trimmedUrl = url.trim();
 
+    if (trimmedUrl === "") {
+      return;
+    }
+    
     if (!trimmedUrl.startsWith("https://") && !trimmedUrl.startsWith("http://")) {
       if (trimmedUrl.startsWith("www.")) {
         trimmedUrl = "https://" + trimmedUrl;
@@ -72,21 +77,24 @@ const Browser = () => {
   };
 
   return (
-    <div className="browser">
-      <form onSubmit={handleNavigate} className="form">
+    <div className="bg-gray-900 text-white p-4 rounded-md h-full flex flex-col">
+      <form onSubmit={handleNavigate} className="flex mb-4">
         <input
           type="text"
           value={url}
           onChange={handleChange}
-          className="url-input"
+          className="bg-gray-800 text-white flex-grow px-2 py-1 rounded-md"
           placeholder="Enter URL"
           autoFocus
         />
-        <button type="submit" className="navigate-button">
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-1 rounded-md ml-2 hover:bg-blue-700"
+        >
           Go
         </button>
       </form>
-      <div className="content">{currentContent}</div>
+      <div className="bg-gray-800 p-4 rounded-lg flex-grow overflow-auto">{currentContent}</div>
     </div>
   );
 };
