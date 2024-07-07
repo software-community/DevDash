@@ -1,6 +1,7 @@
 // Rain.js
 
 import React, { useEffect } from 'react';
+import Terminal from './Terminal.jsx'
 
 const Rain = () => {
   useEffect(() => {
@@ -65,7 +66,7 @@ const Rain = () => {
         fallingCharArr[i].draw(ctx);
       }
 
-      drawCenterText("Welcome to CyberTrace");
+      drawCenterText("DevDash - CyberTrace");
 
       requestAnimationFrame(update);
       frames++;
@@ -75,7 +76,7 @@ const Rain = () => {
       ctx.save();
       ctx.globalAlpha = 0.7;
       ctx.fillStyle = "rgba(0, 0.5, 0, 0.5)";
-      ctx.fillRect(cw / 2 - 180, ch / 2 - 29, 360, 40);
+      ctx.fillRect(cw / 2 - 180, ch/20- 29, 360, 40);
       ctx.restore();
 
       ctx.fillStyle = "#00ff00";
@@ -85,7 +86,7 @@ const Rain = () => {
       ctx.shadowOffsetX = 2;
       ctx.shadowOffsetY = 2;
       ctx.shadowBlur = 2;
-      ctx.fillText(text, cw / 2, ch / 2);
+      ctx.fillText(text, cw / 2, ch/20 );
     };
 
     const handleResize = () => {
@@ -110,6 +111,9 @@ const Rain = () => {
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 2 }}>
       <canvas id="canvas" style={{ display: 'block' }}></canvas>
+      <div className='container'>
+        <Terminal />
+      </div>
     </div>
   );
 };
