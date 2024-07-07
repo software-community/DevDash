@@ -7,7 +7,9 @@ import Window from './components/Window.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <>
-    <Window />
-  </>
+  <React.StrictMode>
+    <>
+      <App/>
+    </>
+  </React.StrictMode>
 )
