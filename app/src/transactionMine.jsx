@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom'; // Corrected import
+import "./Blockchain.css";
 
 
 const TransactionMine = () => {
@@ -116,12 +116,20 @@ const TransactionMine = () => {
             <p>{pubKey}</p>
             <div className="p-5 grid text-xl justify-items-center w-[80vw] bg-yellow-500 border-2 border-yellow-800 rounded-lg">
                 <div>
-                <p className='text-center text-[2em] pb-5'>Issue a transaction</p>
+                <div className='flex'>
+                    <p className='text-center text-4xl pb-5'>Issue a transaction</p>
+                    <div className='group relativeflex justify-center'>
+                        {/* <button className='text-4xl justify-end bg-transparent' data-tooltip-target="tooltip-bottom">ⓘ</button> */}
+                    </div>
+                </div>
+
+
+
                 <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-2">
 
                     <div className='flex flex-col'>
                         <label>Recipient</label>
-                        <input readOnly="true" className="rounded-lg text-sm w-[70vw] p-2" placeholder="softcom_vault"></input>
+                        <input readOnly={true} className="rounded-lg text-sm w-[70vw] p-2" placeholder="softcom_vault"></input>
                     </div>
                     
                     <div className='flex flex-col'>
@@ -165,28 +173,28 @@ const TransactionMine = () => {
                     <div className='flex gap-2 flex-col'>
                         <p>Block Nonce: </p>
                         {timeLeft > 0 && (
-                            <p className='text-black'>░░░░░░░░░░░░░░░</p>
+                            <p className='text-red-600'>░░░░░░░░░░░░░░░</p>
                         )}
                         {timeLeft === 0 && (
-                            <p className='text-black'>{initialBlockNonce}</p>
+                            <p className='text-red-600 font-retro'>{initialBlockNonce}</p>
                         ) }
                     </div>
-                    <div className='flex gap-2 flex-col'>
+                    <div className='flex gap-2 flexcol'>
                         <p>Transaction Number: </p>
                         {timeLeft > 0 && (
-                            <p className='text-black'>░░░░░░░░░░░░░░░</p>
+                            <p className='text-red-600'>░░░░░░░░░░░░░░░</p>
                         )}
                         {timeLeft === 0 && (
-                            <p className='text-black'>54150</p>
+                            <p className='text-red-600 font-retro'>54150</p>
                         ) }
                     </div>
                     <div className='flex gap-2 flex-col'>
                         <p>Timestamp: </p>
                         {timeLeft > 0 && (
-                            <p className='text-black'>░░░░░░░░░░░░░░░</p>
+                            <p className='text-red-600 '>░░░░░░░░░░░░░░░</p>
                         )}
                         {timeLeft === 0 && (
-                            <p className='text-black'>{Math.floor(Date.now() / 1000)}</p>
+                            <p className='text-red-600 font-retro'>{Math.floor(Date.now() / 1000)}</p>
                         ) }
                     </div>
 
