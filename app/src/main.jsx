@@ -8,6 +8,6 @@ import Window from './components/Window.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
-    <App />
+    <Window />
   </>
 )
