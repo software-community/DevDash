@@ -1,10 +1,35 @@
-// Rain.js
-
 import React, { useEffect } from 'react';
-import Terminal from './Terminal.jsx'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { motion } from "framer-motion";
 
 const Rain = () => {
+  const navigate = useNavigate();
+
+  const animations = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1},
+    exit: { opacity: 0},
+  };
+
+  const AnimatedPage = ({ children }) => {
+    return (
+      <motion.div
+        variants={animations}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        transition={{ duration: 2.5 }}
+      >
+        {children}
+      </motion.div>
+    );
+  };
+
+
+
+
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -20,7 +45,7 @@ const Rain = () => {
       "А", "В", "Г", "Д", "Є", "Ѕ", "З", "И", "Ѳ", "І", "К", "Л", "М", "Н", "Ѯ", "Ѻ", "П", "Ч", "Р", "С", "Т", "Ѵ", "Ф", "Х", "Ѱ", "Ѿ", "Ц"
     ];
 
-    let maxCharCount = 300;
+    let maxCharCount = 100;
     let fallingCharArr = [];
     let fontSize = 13;
     let maxColumns = cw / fontSize;
@@ -40,7 +65,7 @@ const Rain = () => {
         this.speed = (Math.random() * fontSize * 3) / 4 + (fontSize * 3) / 4;
 
         ctx.fillStyle = "rgba(0, 255, 0)";
-        ctx.font = fontSize + "px sans-serif";
+        ctx.font = fontSize + "px VT323, monospace";
         ctx.fillText(this.value, this.x, this.y);
         this.y += this.speed;
 
@@ -66,27 +91,8 @@ const Rain = () => {
         fallingCharArr[i].draw(ctx);
       }
 
-      drawCenterText("DevDash - CyberTrace");
-
       requestAnimationFrame(update);
       frames++;
-    };
-
-    const drawCenterText = (text) => {
-      ctx.save();
-      ctx.globalAlpha = 0.7;
-      ctx.fillStyle = "rgba(0, 0.5, 0, 0.5)";
-      ctx.fillRect(cw / 2 - 180, ch/20- 29, 360, 40);
-      ctx.restore();
-
-      ctx.fillStyle = "#00ff00";
-      ctx.font = "27px 'Courier New', monospace";
-      ctx.textAlign = "center";
-      ctx.shadowColor = "#000";
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
-      ctx.shadowBlur = 2;
-      ctx.fillText(text, cw / 2, ch/20 );
     };
 
     const handleResize = () => {
@@ -99,22 +105,31 @@ const Rain = () => {
       ctx.fillRect(0, 0, cw, ch);
     };
 
+    const nextLevel = () => {
+      document.body.style.overflow = 'auto';
+      navigate('/Level-2');
+    };
+
+    const timeout = setTimeout(nextLevel, 5000);
+
     window.addEventListener('resize', handleResize);
     update();
 
     // Cleanup function
     return () => {
+      clearTimeout(timeout);
       window.removeEventListener('resize', handleResize);
     };
-  }, []); // Empty dependency array ensures useEffect runs only once on mount
+  }, [navigate]); // Added navigate to dependency array
 
-  return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 2 }}>
-      <canvas id="canvas" style={{ display: 'block' }}></canvas>
-      <div className='container'>
-        <Terminal />
-      </div>
+  return (<AnimatedPage>
+    <div className="fixed top-0 left-0 w-full h-full z-10">
+      <canvas id="canvas" className="block"></canvas>
+      <h1 className="w-full text-center items-center justify-center absolute top-1/2 -translate-y-1/2 text-3xl z-20 text-center p-4 text-green-400 custom-text-shadow font-vt323">
+        Welcome to DevDash - CyberTrace
+      </h1>
     </div>
+  </AnimatedPage>
   );
 };
 

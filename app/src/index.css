@@ -1,6 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+body {
+  overscroll-behavior-y: contain; /* Prevents the default pull-to-refresh behavior */
+}
+
+.custom-text-shadow {
+  text-shadow: 0 10px 20px rgba(11, 45, 11, 0.7), 0 0 20px rgba(0, 255, 0, 0.7), 0 0 30px rgba(0, 255, 0, 0.7);
+}
+.font-vt323 {
+  font-family: 'VT323', monospace;
+}
+
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -9,7 +25,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color:#111827;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -69,3 +85,5 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+

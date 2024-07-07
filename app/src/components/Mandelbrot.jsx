@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+
 import png1 from '../assets/1.png';
 import png2 from '../assets/2.png';
 import png3 from '../assets/3.png';
@@ -8,9 +9,19 @@ import png6 from '../assets/6.png';
 import png7 from '../assets/7.png';
 import png8 from '../assets/8.png';
 import png9 from '../assets/9.png';
-import MandelbrotFractal from './MandelbrotExplorer'; // Import your MandelbrotFractal component
+import AnimatedPage from './AnimatedPage';
+import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
 
-const PuzzleGame = () => {
+const Mandelbrot = () => {
+    document.body.style.overflow = 'auto';
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const entryNumber = searchParams.get('entryNumber');
+    
+    console.log(entryNumber);
+    const navigate = useNavigate();
+
     const [grid1, setGrid1] = useState([
         [png4, png2, png8],
         [png5, png6, png3],
@@ -26,8 +37,8 @@ const PuzzleGame = () => {
     const [turns, setTurns] = useState(0);
     const [input, setInput] = useState('');
     const [previousMoves, setPreviousMoves] = useState([]);
-    const [timer, setTimer] = useState(600); // 10 seconds for testing purpose, change to 600 for 10 minutes in the actual code
-    const [gameCompleted, setGameCompleted] = useState(false); // State to track game completion
+    const [timer, setTimer] = useState(6);
+    const [gameCompleted, setGameCompleted] = useState(false);
 
     const exampleCommand = 'move grid1[0,0] grid2[1,0]';
 
@@ -50,19 +61,33 @@ const PuzzleGame = () => {
 
     // Function to handle game end
     useEffect(() => {
-        const handleGameEnd = () => {
+        const handleGameEnd = async () => {
             const correctOrder = [png1, png2, png3, png4, png5, png6, png7, png8, png9];
             const flatGrid2 = grid2.flat();
             const isCorrect = flatGrid2.every((piece, index) => piece === correctOrder[index]);
-            
+
             if (isCorrect || timer <= 0) {
                 setGameCompleted(true);
                 console.log(isCorrect ? 'Game completed successfully!' : 'Game over. Time ran out!');
+                const timeTaken = 6 - parseInt(timer); // Calculate time taken to complete the level
+                const formData = {
+                    entryNumber: entryNumber,
+                    timeTaken: timeTaken
+                };
+                fetch('http://localhost:3000/updateTime', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                })
+
+                navigate('/Level-1(2)');
             }
         };
 
         handleGameEnd();
-    }, [grid2, timer]);
+    }, [grid2,gameCompleted, timer, entryNumber, navigate]);
 
     const handleDragStart = (e, piece, gridName, row, col) => {
         e.dataTransfer.setData('piece', piece);
@@ -140,7 +165,7 @@ const PuzzleGame = () => {
             handleDropFromInput(sourceGrid, targetGrid, sourceRow, sourceCol, targetRow, targetCol);
 
             setPreviousMoves([...previousMoves, { sourceGrid, targetGrid, sourceRow, sourceCol, targetRow, targetCol }]);
-            setInput('');
+
             setTurns(turns + 1);
         } catch (error) {
             alert(error.message);
@@ -201,9 +226,8 @@ const PuzzleGame = () => {
                 row.map((cell, colIndex) => (
                     <div
                         key={`${gridName}-${rowIndex}-${colIndex}`}
-                        className={`${
-                            cell ? 'bg-transparent' : 'bg-gray-600'
-                        } border-2 border-gray-700 aspect-square relative`}
+                        className={`${cell ? 'bg-transparent' : 'bg-gray-600'
+                            } border-2 border-gray-700 aspect-square relative`}
                         draggable={!!cell}
                         onDragStart={(e) => handleDragStart(e, cell, gridName, rowIndex, colIndex)}
                         onDragOver={handleDragOver}
@@ -216,11 +240,10 @@ const PuzzleGame = () => {
         </div>
     );
 
-    if (gameCompleted) {
-        return <MandelbrotFractal />;
-    }
 
-    return (
+
+
+    return (<AnimatedPage>
         <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-5 bg-gray-900 text-white">
             <div className="w-full max-w-xs text-center">
                 <div className="text-lg font-bold mb-2">DevDash - CodeCrafters</div>
@@ -230,29 +253,29 @@ const PuzzleGame = () => {
                 {renderGrid(grid1, 'grid1')}
             </div>
             <div className="flex items-center w-full max-w-xs">
-                <input 
+                <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder='move grid1[0,0] grid2[1,0]'
                     className="p-2 w-full mt-2 border bg-gray-600 border-gray-600 rounded-lg placeholder-gray-400"
                 />
-                <button 
-                    onClick={copyExampleCommand} 
+                <button
+                    onClick={copyExampleCommand}
                     className="ml-2 mt-2 p-2 cursor-pointer bg-gray-800 hover:bg-gray-700 text-white rounded-lg"
                 >
                     Autofill
                 </button>
             </div>
             <div className="flex gap-2">
-                <button 
-                    onClick={executeMove} 
+                <button
+                    onClick={executeMove}
                     className="p-2 cursor-pointer bg-gray-800 hover:bg-gray-700 text-white rounded-lg"
                 >
                     Execute Command
                 </button>
-                <button 
-                    onClick={redoMove} 
+                <button
+                    onClick={redoMove}
                     className="p-2 cursor-pointer bg-gray-800 hover:bg-gray-700 text-white rounded-lg"
                 >
                     Undo
@@ -263,7 +286,18 @@ const PuzzleGame = () => {
             </div>
             <div className="mt-2">Turns: {turns}</div>
         </div>
+    </AnimatedPage>
     );
 };
 
-export default PuzzleGame;
+export default Mandelbrot;
+
+
+
+
+
+
+
+
+
+
