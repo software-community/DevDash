@@ -3,7 +3,6 @@ import { Canvas } from "@react-three/fiber";
 import { useGLTF, Stage, OrbitControls } from "@react-three/drei";
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 function Model(props) {
     const { scene } = useGLTF("2.glb"); // Ensure the path is correct
@@ -12,7 +11,6 @@ function Model(props) {
 
 function Login() {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const [controlSettings, setControlSettings] = useState({
         speed: 3.0,
