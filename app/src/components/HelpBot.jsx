@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ChatBot from "react-simple-chatbot";
 import alluArjun from "../assets/alluArjun.png";
 import ohMyGoddo from "../assets/ohMyGoddo.png";
+import { useNavigate } from 'react-router-dom';
 
 const HelpBot = ({ level = 1 }) => {
+
+  const navigate = useNavigate();
+
   const getInitialSteps = (level) => {
     if (level === 1) {
       return [
@@ -100,17 +104,27 @@ const HelpBot = ({ level = 1 }) => {
           id: "hacker-input",
         user: true,
         trigger: (inputValue) => {
-          if (inputValue === 'bad munda') {
-            return 'next-level';
+          console.log(inputValue.value);
+          console.log(inputValue.value === 'bad');
+          if (inputValue.value === 'bad') {
+            console.log('correct');
+            return 'congo-msg';
           } else {
             return 'wrong-ans';
           }
         },
       },
+      {
+        id: "congo-msg",
+        message: "Correct answer! You found the hacker!",
+        trigger: 'next-level',
+      },
         {
           id: "next-level",
-          message: "Congrats, you found the hacker! Let's move on to blockchain now.",
-          trigger: 2,
+          component: (
+            <RedirectComponent navigate={navigate} />
+          ),
+          end: true,
         },
         {
           id: "wrong-ans",
@@ -175,6 +189,19 @@ const HelpBot = ({ level = 1 }) => {
       />
     </div>
   );
+};
+
+
+const RedirectComponent = ({ navigate }) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/intro2');
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
+  return <div>Redirecting to the next level...</div>;
 };
 
 export default HelpBot;

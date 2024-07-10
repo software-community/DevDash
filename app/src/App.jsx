@@ -9,12 +9,18 @@ import Noncense from './components/blockchain/Noncense.jsx';
 import Intro2 from './components/blockchain/intro2.jsx';
 import Window from './components/Window.jsx';
 import Result from './components/Result.jsx';
+import HelpBot from './components/HelpBot.jsx';
 
 function App(){
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={
+                    <>
+                    <Window />
+                    <HelpBot
+                    level={2}/>
+                    </>} />
                 {/* <Route path="/Level-1(1)" element={<Mandelbrot />} />
                 <Route path="/Level-1(2)" element={<MandelbrotFractal />} />
                 <Route path="/intro1" element={<Rain />} /> 
