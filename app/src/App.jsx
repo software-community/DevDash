@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Terminal from './components/Terminal';
 import Login from './components/login/Login.jsx';
@@ -26,4 +27,4 @@ function App(){
     );
 }
 
-export default App
+export default App;

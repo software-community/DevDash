@@ -64,10 +64,6 @@ const Terminal = () => {
         } else {
           return 'Please verify SSH first by running the ssh command.';
         }
-      case 'help':
-        return 'Available commands: help, hello, clear';
-      case 'hello':
-        return 'Hello! How can I assist you today?';
       case 'oh my goddo':
         return 'its salman kun\n yaha bhi hoga\n wha bhi hoga\n ab to saare jahan me hoga\n kya?\n mera hi jalwa';
       default:
