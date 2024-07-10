@@ -2,7 +2,6 @@ import React from 'react';
 import { Canvas } from "@react-three/fiber";
 import { useGLTF, Stage, OrbitControls } from "@react-three/drei";
 import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 
 function Model(props) {
     const { scene } = useGLTF("2.glb"); // Ensure the path is correct
@@ -10,7 +9,6 @@ function Model(props) {
 }
 
 function Login() {
-    const navigate = useNavigate();
 
     const [controlSettings, setControlSettings] = useState({
         speed: 3.0,
@@ -76,8 +74,9 @@ function Login() {
     
         console.log("Name:", name);
         console.log("Entry Number:", entryNumber);
-    
-        navigate(`/Level-1(1)?entryNumber=${entryNumber}`);
+
+        window.location.href = `/intro2?entryNumber=${entryNumber}`
+
     };
 
     return (

@@ -1,16 +1,16 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
-import png1 from '../assets/1.png';
-import png2 from '../assets/2.png';
-import png3 from '../assets/3.png';
-import png4 from '../assets/4.png';
-import png5 from '../assets/5.png';
-import png6 from '../assets/6.png';
-import png7 from '../assets/7.png';
-import png8 from '../assets/8.png';
-import png9 from '../assets/9.png';
-import AnimatedPage from './AnimatedPage';
-import { BrowserRouter, Routes, Route, useNavigate, useParams, useLocation } from 'react-router-dom';
+import png1 from '../../assets/1.png';
+import png2 from '../../assets/2.png';
+import png3 from '../../assets/3.png';
+import png4 from '../../assets/4.png';
+import png5 from '../../assets/5.png';
+import png6 from '../../assets/6.png';
+import png7 from '../../assets/7.png';
+import png8 from '../../assets/8.png';
+import png9 from '../../assets/9.png';
+import AnimatedPage from '../AnimatedPage';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Mandelbrot = () => {
     document.body.style.overflow = 'auto';
@@ -18,7 +18,7 @@ const Mandelbrot = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const entryNumber = searchParams.get('entryNumber');
-    
+
     console.log(entryNumber);
     const navigate = useNavigate();
 
@@ -37,20 +37,26 @@ const Mandelbrot = () => {
     const [turns, setTurns] = useState(0);
     const [input, setInput] = useState('');
     const [previousMoves, setPreviousMoves] = useState([]);
-    const [timer, setTimer] = useState(6);
+    
     const [gameCompleted, setGameCompleted] = useState(false);
 
     const exampleCommand = 'move grid1[0,0] grid2[1,0]';
 
-    // Countdown timer effect
-    useEffect(() => {
-        const timerInterval = setInterval(() => {
-            setTimer(prevTimer => prevTimer - 1);
-        }, 1000);
+    const [timer, setTimer] = useState(6);
 
-        // Clear interval on component unmount
-        return () => clearInterval(timerInterval);
-    }, []);
+
+    
+
+    useEffect(() => {
+        if (timer > 0) {
+            const timerInterval = setInterval(() => {
+                setTimer(prevTimer => prevTimer - 1);
+            }, 1000);
+
+            // Cleanup function to clear the interval when the component unmounts or when `timer` changes
+            return () => clearInterval(timerInterval);
+        }
+    }, [timer]);
 
     // Format timer for display
     const formatTimer = (time) => {
@@ -82,12 +88,12 @@ const Mandelbrot = () => {
                     body: JSON.stringify(formData),
                 })
 
-                navigate('/Level-1(2)');
+                navigate(`/Level-1(2)?entryNumber=${entryNumber}`);
             }
         };
 
         handleGameEnd();
-    }, [grid2,gameCompleted, timer, entryNumber, navigate]);
+    }, [grid2, gameCompleted, timer, entryNumber, navigate]);
 
     const handleDragStart = (e, piece, gridName, row, col) => {
         e.dataTransfer.setData('piece', piece);
