@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
 
 const Rain = () => {
   const navigate = useNavigate();
+  
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const entryNumber = searchParams.get('entryNumber');
 
   const animations = {

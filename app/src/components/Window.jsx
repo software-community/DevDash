@@ -1,29 +1,36 @@
-import React, { useState } from "react";
-// import "./Window.css"; // Import the CSS file for the Browser component
+import React, { useState, useEffect } from "react";
 import Terminal from "./Terminal";
 import Browser from "./Browser";
 import MySQLTerminal from "./DataExplorer";
 import HelpBot from "./HelpBot";
+import { useLocation } from "react-router-dom";
 
 const Window = () => {
   const components = [
     { name: "Browser", component: <Browser /> },
     { name: "Terminal", component: <Terminal /> },
-    {name: "Azure", component: <MySQLTerminal />}
+    { name: "Azure", component: <MySQLTerminal /> }
     // Add more components as needed
   ];
 
-  const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
-  // const [startTime, setStartTime] = useState(null);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const entryNumber = searchParams.get('entryNumber');
 
-  // useEffect(() => {
-  //   setStartTime(Date.now());
-  //   return () => {
-  //     const endTime = Date.now();
-  //     const timeSpent = endTime - startTime;
-  //     console.log(`Time spent on Window.jsx: ${timeSpent} milliseconds`);
-  //   }
-  // });
+  const [timer, setTimer] = useState(1200);
+
+  useEffect(() => {
+    if (timer > 0) {
+      const timerInterval = setInterval(() => {
+        setTimer(prevTimer => prevTimer - 1);
+      }, 1000);
+
+      // Cleanup function to clear the interval when the component unmounts or when `timer` changes
+      return () => clearInterval(timerInterval);
+    }
+  }, [timer]);
+
+  const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
 
   const toggleComponent = () => {
     setCurrentComponentIndex((prevIndex) => (prevIndex + 1) % components.length);
@@ -42,7 +49,9 @@ const Window = () => {
       </div>
       <div className=" bg-gray-900 h-full">
         {components[currentComponentIndex].component}
+        
       </div>
+      <HelpBot level={2} entryNumber={entryNumber} timer={timer} setTimer={setTimer} />
     </div>
   );
 };

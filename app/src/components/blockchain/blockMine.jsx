@@ -425,7 +425,7 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
                         <div className='flex flex-col place-items-center'>
                             <p className='text-white italic text-3xl'>Details Correct...</p>
                             <p className='text-white italic text-sm'>Waiting for confirmation</p>
-                            <p className='text-white italic text-sm'>{percentage}</p>
+                            <p className='text-white italic text-lm'>{percentage} %</p>
                         </div>
                     </div>
 

@@ -75,7 +75,7 @@ function Login() {
         console.log("Name:", name);
         console.log("Entry Number:", entryNumber);
 
-        window.location.href = `/intro2?entryNumber=${entryNumber}`
+        window.location.href = `/Level-1(1)?entryNumber=${entryNumber}`
 
     };
 
