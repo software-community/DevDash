@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AnimatedPage from '../AnimatedPage';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const MandelbrotFractal = () => {
 
@@ -14,6 +14,8 @@ const MandelbrotFractal = () => {
   const [showMandelbrot, setShowMandelbrot] = useState(true); // Toggle for showing Mandelbrot fractal
   const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth, height: window.innerHeight / 2 });
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const entryNumber = searchParams.get('entryNumber');
 
   useEffect(() => {

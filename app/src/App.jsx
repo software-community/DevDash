@@ -11,23 +11,19 @@ import Window from './components/Window.jsx';
 import Result from './components/Result.jsx';
 import HelpBot from './components/HelpBot.jsx';
 
-function App(){
+function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={
-                    <>
-                    <Window />
-                    <HelpBot
-                    level={2}/>
-                    </>} />
-                {/* <Route path="/Level-1(1)" element={<Mandelbrot />} />
+
+                <Route path="/" element={<Login />} />
+                <Route path="/Level-1(1)" element={<Mandelbrot />} />
                 <Route path="/Level-1(2)" element={<MandelbrotFractal />} />
                 <Route path="/intro1" element={<Rain />} /> 
-                <Route path="/Level-2" element={<Window/>} /> */}
-                <Route path="/intro2" element={<Intro2/>} />
-                <Route path="/Level-3" element={<Noncense /> } />
-                <Route path="/resultPage" element={<Result /> } />
+                <Route path="/Level-2" element ={<Window /> } />
+                <Route path="/intro2" element={<Intro2 />} />
+                <Route path="/Level-3" element={<Noncense />} />
+                <Route path="/resultPage" element={<Result />} />
             </Routes>
         </BrowserRouter>
     );
