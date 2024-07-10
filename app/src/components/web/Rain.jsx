@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 
 const Rain = () => {
   const navigate = useNavigate();
+  const entryNumber = searchParams.get('entryNumber');
 
   const animations = {
     initial: { opacity: 0 },
-    animate: { opacity: 1},
-    exit: { opacity: 0},
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
   };
 
   const AnimatedPage = ({ children }) => {
@@ -24,9 +25,6 @@ const Rain = () => {
       </motion.div>
     );
   };
-
-
-
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -105,31 +103,37 @@ const Rain = () => {
       ctx.fillRect(0, 0, cw, ch);
     };
 
-    const nextLevel = () => {
-      document.body.style.overflow = 'auto';
-      navigate('/Level-2');
-    };
-
-    const timeout = setTimeout(nextLevel, 5000);
-
     window.addEventListener('resize', handleResize);
     update();
 
     // Cleanup function
     return () => {
-      clearTimeout(timeout);
       window.removeEventListener('resize', handleResize);
     };
-  }, [navigate]); // Added navigate to dependency array
+  }, []);
 
-  return (<AnimatedPage>
-    <div className="fixed top-0 left-0 w-full h-full z-10">
-      <canvas id="canvas" className="block"></canvas>
-      <h1 className="w-full text-center items-center justify-center absolute top-1/2 -translate-y-1/2 text-3xl z-20 text-center p-4 text-green-400 custom-text-shadow font-vt323">
-        Welcome to DevDash - CyberTrace
-      </h1>
-    </div>
-  </AnimatedPage>
+  const startNextLevel = () => {
+    document.body.style.overflow = 'auto';
+    navigate(`/Level-2?entryNumber=${entryNumber}`);
+  };
+
+  return (
+    <AnimatedPage>
+      <div className="fixed top-0 left-0 w-full h-full z-10">
+        <canvas id="canvas" className="block"></canvas>
+        <h1 className="w-full text-center items-center justify-center absolute top-1/2 -translate-y-1/2 text-3xl z-20 text-center p-4 text-green-400 custom-text-shadow font-vt323">
+          Welcome to DevDash - CyberTrace
+        </h1>
+        <div className="absolute bottom-20 w-full flex justify-center">
+          <button
+            onClick={startNextLevel}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Start
+          </button>
+        </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

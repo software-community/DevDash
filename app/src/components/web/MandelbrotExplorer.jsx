@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import AnimatedPage from './AnimatedPage';
+import AnimatedPage from '../AnimatedPage';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 
 const MandelbrotFractal = () => {
 
@@ -14,7 +14,7 @@ const MandelbrotFractal = () => {
   const [showMandelbrot, setShowMandelbrot] = useState(true); // Toggle for showing Mandelbrot fractal
   const [canvasSize, setCanvasSize] = useState({ width: window.innerWidth, height: window.innerHeight / 2 });
 
-
+  const entryNumber = searchParams.get('entryNumber');
 
   useEffect(() => {
     const updateCanvasSize = () => {
@@ -122,6 +122,7 @@ const MandelbrotFractal = () => {
   };
 
   const nextLevel = () => {
+    window.location.href = `/intro1?entryNumber=${entryNumber}`
     navigate('/intro1')
   }
 
