@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Terminal from "./Terminal";
 import Browser from "./Browser";
 import MySQLTerminal from "./DataExplorer";
+import HelpBot from "./HelpBot";
 
 const Window = () => {
   const components = [

@@ -22,15 +22,18 @@ const MySQLTerminal = () => {
 
     let result;
     switch (command) {
-      case "select * from users":
+      case "select * from Employees":
         result = [
-          { user: "Alice", info: "Data 1", age: 25, location: "New York" },
-          { user: "Bob", info: "Data 2", age: 30, location: "San Francisco" },
-          { user: "Charlie", info: "Data 3", age: 28, location: "London" },
+          { Employee: "Alice", age: 25, IP: "1.0.0.32" },
+          { Employee: "Bob", age: 30, IP: "1.0.0.36" },
+          { Employee: "Charlie", age: 28, IP: "1.0.0.35" },
         ];
         break;
       case "show tables":
-        result = "'users', 'orders', 'products'";
+        result = [
+          { Tables_in_database: "Employees" },
+          { Tables_in_database: "products" },
+        ];
         break;
       case "describe users":
         result = [
