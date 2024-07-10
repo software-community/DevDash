@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./Blockchain.css";
 import AnimatedPage from '../AnimatedPage';
+import HelpBot from '../HelpBot';
 
 const TransactionMine = ({ timer, setTimer, goToNextStep }) => {
 
@@ -201,6 +202,8 @@ const TransactionMine = ({ timer, setTimer, goToNextStep }) => {
         </div>
       )}
     </div>
+    <HelpBot 
+    level={3}/>
     </AnimatedPage>
 
   )
