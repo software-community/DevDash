@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./Blockchain.css";
 import AnimatedPage from '../AnimatedPage';
+import HelpBot from '../HelpBot';
 
 function sha256(ascii) {
     function rightRotate(value, amount) {
@@ -431,7 +432,9 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
                 )}
 
             </div>
+            <HelpBot level={'blockmine'}/>
         </AnimatedPage>
+
     )
 }
 
