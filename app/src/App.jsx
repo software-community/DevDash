@@ -1,6 +1,5 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Terminal from './components/Terminal';
 import Login from './components/login/Login.jsx';
 import Mandelbrot from './components/web/Mandelbrot.jsx';
 import MandelbrotFractal from './components/web/MandelbrotExplorer.jsx';
@@ -9,7 +8,7 @@ import Noncense from './components/blockchain/Noncense.jsx';
 import Intro2 from './components/blockchain/intro2.jsx';
 import Window from './components/Window.jsx';
 import Result from './components/Result.jsx';
-import HelpBot from './components/HelpBot.jsx';
+
 
 function App() {
     return (

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Canvas } from "@react-three/fiber";
 import { useGLTF, Stage, OrbitControls } from "@react-three/drei";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { SampleContext } from '../../contexts/URLContext';
 
 function Model(props) {
     const { scene } = useGLTF("2.glb"); // Ensure the path is correct
@@ -9,6 +10,8 @@ function Model(props) {
 }
 
 function Login() {
+    const { URL } = useContext(SampleContext)
+
     const [controlSettings, setControlSettings] = useState({
         speed: 3.0,
         damping: 0.1,
@@ -61,7 +64,7 @@ function Login() {
         };
 
         // Send the form data as a JSON string
-        let result = await fetch('http://localhost:3000/', {
+        let result = await fetch(`${URL}/`, {
             method: 'POST',
             body: JSON.stringify(formData),
             headers: {

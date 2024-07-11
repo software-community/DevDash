@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import "./Blockchain.css";
 import AnimatedPage from '../AnimatedPage';
 import HelpBot from '../HelpBot';
+import { SampleContext } from '../../contexts/URLContext';
 
 function sha256(ascii) {
     function rightRotate(value, amount) {
@@ -115,6 +116,8 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
     const [fetchCompleted, setFetchCompleted] = useState(false);
     let timeTaken = 0;
 
+    const { URL } = useContext(SampleContext)
+
     // const pushTodb = () => {
     //     const initialTimestamp = JSON.parse(localStorage.getItem('initialTimestamp'));
     //     const finalTimestamp = Math.floor(Date.now() / 1000);
@@ -140,7 +143,7 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
                     timeTaken: timeTaken
                 };
 
-                await fetch('http://localhost:3000/updateTime', {
+                await fetch(`${URL}/updateTime`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -150,7 +153,7 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
 
                 setTimer(0);
 
-                await fetch('http://localhost:3000/setIsEnd', {
+                await fetch(`${URL}/setIsEnd`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -216,7 +219,7 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
 
     const fetchPercentageComplete = async () => {
         try {
-            const response = await fetch('http://localhost:3000/percentageComplete', {
+            const response = await fetch(`${URL}/percentageComplete`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
