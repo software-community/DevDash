@@ -9,7 +9,6 @@ function Model(props) {
 }
 
 function Login() {
-
     const [controlSettings, setControlSettings] = useState({
         speed: 3.0,
         damping: 0.1,
@@ -17,6 +16,8 @@ function Login() {
 
     const [name, setName] = useState("");
     const [entryNumber, setEntryNumber] = useState("");
+    const [showAdminModal, setShowAdminModal] = useState(false);
+    const [adminPassword, setAdminPassword] = useState("");
 
     useEffect(() => {
         const handleResize = () => {
@@ -45,12 +46,12 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const date = new Date();
-    
+
         let day = date.getDate();
         let month = date.getMonth() + 1; // Months are zero-based, so add 1
         let year = date.getFullYear();
         let currentDate = `${day}-${month}-${year}`;
-    
+
         // Create an object to hold the form data
         const formData = {
             name: name,
@@ -58,7 +59,7 @@ function Login() {
             date: currentDate,
             time: 0 // You can add other fields as needed
         };
-    
+
         // Send the form data as a JSON string
         let result = await fetch('http://localhost:3000/', {
             method: 'POST',
@@ -67,16 +68,23 @@ function Login() {
                 'Content-Type': 'application/json'
             },
         });
-    
-        // Handle the response
-        result = await result.json(); // Correct the variable name to `result`
 
-    
+        // Handle the response
+        result = await result.json();
+
         console.log("Name:", name);
         console.log("Entry Number:", entryNumber);
 
-        window.location.href = `/Level-1(1)?entryNumber=${entryNumber}`
+        window.location.href = `/Level-1(1)?entryNumber=${entryNumber}`;
+    };
 
+    const handleAdminSubmit = (e) => {
+        e.preventDefault();
+        if (adminPassword === "password") {  // Replace with actual admin password
+            window.location.href = "/resultPage";
+        } else {
+            alert("Incorrect password");
+        }
     };
 
     return (
@@ -124,15 +132,51 @@ function Login() {
                 </div>
                 <button
                     type="submit"
-                    className="mb-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                     Submit
                 </button>
             </form>
+            <button
+                onClick={() => setShowAdminModal(true)}
+                className="mb-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-3/7 max-w-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+                Admin Login
+            </button>
+
+            {showAdminModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg">
+                        <h2 className="text-xl font-bold mb-4 text-black">Admin Login</h2>
+                        <form onSubmit={handleAdminSubmit}>
+                            <input
+                                type="password"
+                                value={adminPassword}
+                                onChange={(e) => setAdminPassword(e.target.value)}
+                                placeholder="Enter admin password"
+                                className="mb-4 w-full p-2 border border-gray-300 rounded text-white"
+                            />
+                            <div className="flex justify-end">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowAdminModal(false)}
+                                    className="mr-2 px-4 py-2 bg-gray-200 text-black rounded hover:bg-gray-300"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                >
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
-
-
 
 export default Login;

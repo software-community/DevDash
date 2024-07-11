@@ -132,7 +132,6 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
   const navigate = useNavigate();
   const latestTimerRef = useRef(timer);
 
-  console.log("HelpBot rendered. Current timer value:", timer);
 
   // Update the ref whenever timer changes
   useEffect(() => {
@@ -316,13 +315,13 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
       return [
         {
           id: 1,
-          message: "Welcome to Noncence!",
+          message: "Welcome to Noncense!",
           trigger: 2,
         },
         {
           id: 2,
           message:
-            "You should have your public key by now. Here are the steps to generate your private key:",
+            "You should have your private key by now. Here are the steps to generate your public key:",
           trigger: 3,
         },
         {
@@ -486,7 +485,6 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
 
   return (
     <div>
-      {entryNumber}
       <ChatBot
         steps={steps}
         floating={true}
