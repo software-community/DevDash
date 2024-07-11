@@ -4,10 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 body {
   overscroll-behavior-y: contain; /* Prevents the default pull-to-refresh behavior */
+  margin: 0;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 .custom-text-shadow {
@@ -17,7 +19,6 @@ body {
   font-family: 'VT323', monospace;
 }
 
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -25,7 +26,7 @@ body {
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color:#111827;
+  background-color: #111827;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -40,13 +41,6 @@ a {
 }
 a:hover {
   color: #535bf2;
-}
-
-body {
-  margin: 0;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -86,4 +80,35 @@ button:focus-visible {
   }
 }
 
+/* Styles for portrait mode */
+@media screen and (orientation: portrait) {
+  .app-content {
+    display: block;
+  }
 
+  .landscape-warning {
+    display: none;
+  }
+}
+
+/* Styles for landscape mode */
+@media screen and (orientation: landscape) {
+  .app-content {
+    display: none;
+  }
+
+  .landscape-warning {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 1.5rem;
+    z-index: 1000;
+  }
+}
