@@ -14,7 +14,7 @@ const Noncense = () => {
     const entryNumber = searchParams.get('entryNumber');
 
 
-  const [timer, setTimer] = useState(1200);
+  const [timer, setTimer] = useState(1800);
   const [step, setStep] = useState(1);
 
   useEffect(() => {

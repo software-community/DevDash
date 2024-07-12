@@ -151,7 +151,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
       );
 
       const updateData = async () => {
-        const currentTimeTaken = 1200 - capturedTimer;
+        const currentTimeTaken = 1800 - capturedTimer;
         console.log(
           "Calculating time taken. Captured Timer:",
           capturedTimer,
@@ -237,15 +237,21 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: 3,
-          message:"Our final goal is to access the company's Azure database to find IP of the hacker. Let's get started!",
+          message:"Our final goal is to access the company's Azure database to find IP of the hacker. You have to name the hacker to move to the next level. Let's get started!",
           trigger: 4,
         },
         {
           id: 4,
           message: "The company's url is eurobank.eu. It should help you get started. Good luck!",
+          trigger: "choice-msg"
         },
         {
-          id: 4,
+          id: "choice-msg",
+          message: "Anything specific you need help with?",
+          trigger: "choice",
+        },
+        {
+          id: "choice",
           options: [
             { value: "browser", label: "Browser", trigger: "browser-help" },
             { value: "terminal", label: "Terminal", trigger: "terminal-help" },
@@ -261,7 +267,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
           id: "browser-help",
           message:
             "Here you need to access bank's files to get ssh credentials, try manipulating url to get access to files.",
-          trigger: 2,
+          trigger: "choice",
         },
         {
           id: "terminal-help",
@@ -276,7 +282,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "terminal-command-1",
           message:
-            "{ssh <username>@host -p <port> => <password>} : to files access",
+            "{ssh <username>@<host> -p <port> => <password>} : to files access",
           trigger: "terminal-command-2",
         },
         {
@@ -297,7 +303,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "terminal-command-5",
           message: "{cat <filename>} : to open file",
-          trigger: 2,
+          trigger: "choice",
         },
         {
           id: "azure-help",
@@ -322,6 +328,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "azure-command-3",
           message: "{describe <table-name>} : Describe the table",
+          trigger: "choice"
         },
         {
           id: "hacker-input",
@@ -347,14 +354,14 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "wrong-ans",
           message: "Wrong answer. Try again!",
-          trigger: 2,
+          trigger: "choice",
         },
       ];
     } else if (level === 3) {
       return [
         {
           id: 1,
-          message: "Welcome to Noncence! Here you will learn how to perform a transaction using your private key.",
+          message: "Welcome to Noncense! Here you will learn how to perform a transaction using your private key.",
           trigger: 'ask-pvtKey',
         },
         {
@@ -434,7 +441,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: 7,
           message:
-            "Done! You have your private key. Use it to issue your transaction.",
+            "Done! You have your public key. Use it to issue your transaction.",
           trigger: "choice-msg",
         },
         {
@@ -648,7 +655,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
 const CaeserCipherComponent = ({ steps }) => {
   const caeserString = caeserCipher(
     steps["caeser-string-input"].value,
-    parseInt(steps["caeser-shift-input"].value, 10)
+    steps["caeser-shift-input"].value
   );
   return (
     <div style={{ wordWrap: "break-word", whiteSpace: "pre-wrap" }}>

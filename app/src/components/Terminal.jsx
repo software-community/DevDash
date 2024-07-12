@@ -28,7 +28,7 @@ const Terminal = () => {
 
     if (command.startsWith('ssh')) {
       output = sshVerify(command);
-      if (output === 'Congo you won 100M dollars') {
+      if (output === 'Congo you won 100M dollars, not really though.') {
         setSshVerified(true);
       } else {
         setSshVerified(false);

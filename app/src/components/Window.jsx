@@ -17,7 +17,7 @@ const Window = () => {
   const searchParams = new URLSearchParams(location.search);
   const entryNumber = searchParams.get('entryNumber');
 
-  const [timer, setTimer] = useState(1200);
+  const [timer, setTimer] = useState(1800);
 
   useEffect(() => {
     if (timer > 0) {

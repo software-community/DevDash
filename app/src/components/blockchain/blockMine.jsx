@@ -136,7 +136,7 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
 
     useEffect(() => {
         const updateData = async () => {
-            timeTaken = 1200 - parseInt(timer); // Calculate time taken to complete the level
+            timeTaken = 1800 - parseInt(timer); // Calculate time taken to complete the level
             if (minedSuccesfully === "Successfull" && !fetchCompleted) {
                 const formData = {
                     entryNumber: entryNumber,
@@ -246,7 +246,6 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
         if (minedSuccesfully === "Successfull"){
             const interval = setInterval(() => {
                 fetchPercentageComplete();
-                console.log(percentage)
             }, 3000); // Check percentage every 5 seconds
     
             return () => clearInterval(interval);
@@ -285,7 +284,8 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
                 localStorage.setItem('finalBlockNonce', JSON.stringify(generatedFinalNonce));
             }
             savedData3 = JSON.parse(localStorage.getItem('finalBlockNonce'));
-            setFinalBlockNonce(savedData3);
+            let savedData4 = generateBlockNonce(initialBlockNonce)
+            setFinalBlockNonce(savedData4);
         };
         fetchFinalBlockNonce();
 
@@ -332,7 +332,8 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
             }
         }
         let newNonce = caeserCipher(letters, 3) + numbers;
-        console.log(sha256(newNonce))
+        console.log("oo my goddo ")
+        // console.log(sha256(newNonce))
         return sha256(newNonce);
 
     }

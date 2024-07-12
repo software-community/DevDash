@@ -1,19 +1,43 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const Users = require('./Models/User');
+require('dotenv').config();
+
+
 const app = express();
+const port = process.env.PORT || process.env.PORT;
 
+const clientOptions = { 
+    serverApi: { 
+        version: '1', 
+        strict: true, 
+        deprecationErrors: true 
+    } 
+};
 
+const uri = process.env.MONGODB_URI
+
+// Middleware to enable CORS and parse JSON bodies
 app.use(cors({
     origin: '*', // Allow all origins
     credentials: true
-  }));
-  
-// Parse JSON bodies
+}));
+
 app.use(express.json());
 
-// Import and configure MongoDB connection
-require('./db/connection');
-const Users = require('./Models/User');
+// Function to connect to MongoDB
+async function connectToDatabase() {
+    try {
+        await mongoose.connect(uri, clientOptions);
+        console.log("Connected to MongoDB successfully!");
+    } catch (error) {
+        console.error("Failed to connect to MongoDB:", error);
+    }
+}
+
+// Connect to the database when the server starts
+connectToDatabase();
 
 // Handle POST request to create a new user
 app.post("/", async (req, res) => {
@@ -27,38 +51,31 @@ app.post("/", async (req, res) => {
     }
 });
 
-
 app.post("/updateTime", async (req, res) => {
     console.log("Received update-time request:", req.body);
     try {
         const { entryNumber, timeTaken } = req.body;
 
-        // Find the user by entryNumber
         const user = await Users.findOne({ entryNumber });
 
         if (!user) {
             return res.status(404).send("User not found");
         }
 
-        // Update the timeTaken field
         user.time += parseInt(timeTaken);
-
-        // Save the updated user document
         await user.save();
 
-        res.send(user); // Optionally, you can send the updated user object as a response
+        res.send(user);
     } catch (error) {
         console.error("Error updating time taken:", error);
         res.status(500).send("Error updating time taken");
     }
 });
 
-
 app.post("/percentageComplete", async (req, res) => {
     try {
         const { date } = req.body;
 
-        // Find all users with the same date
         const totalUsers = await Users.countDocuments({ date });
         const completedUsers = await Users.countDocuments({ date, isEnd: true });
 
@@ -66,7 +83,6 @@ app.post("/percentageComplete", async (req, res) => {
             return res.status(404).send("No users found for the given date");
         }
 
-        // Calculate the percentage
         const percentageComplete = (completedUsers / totalUsers) * 100;
 
         res.send({ percentageComplete });
@@ -80,20 +96,16 @@ app.post("/setIsEnd", async (req, res) => {
     try {
         const { entryNumber } = req.body;
 
-        // Find the user by entryNumber
         const user = await Users.findOne({ entryNumber });
 
         if (!user) {
             return res.status(404).send("User not found");
         }
 
-        // Update the isEnd field to true
         user.isEnd = true;
-
-        // Save the updated user document
         await user.save();
 
-        res.send(user); // Optionally, you can send the updated user object as a response
+        res.send(user);
     } catch (error) {
         console.error("Error setting isEnd:", error);
         res.status(500).send("Error setting isEnd");
@@ -104,9 +116,7 @@ app.post("/result", async (req, res) => {
     const { date } = req.body;
 
     try {
-        // Fetch users with the given date and isEnd = true, then sort by time in ascending order
         const totalUsers = await Users.find({ date: date, isEnd: true }).sort({ time: 1 }).select('name entryNumber time');
-        
         res.send({ totalUsers });
     } catch (error) {
         console.error("Error fetching users:", error);
@@ -114,7 +124,13 @@ app.post("/result", async (req, res) => {
     }
 });
 
-// Start the server on port 3000
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+// Handle graceful shutdown
+process.on('SIGINT', async () => {
+    await mongoose.disconnect();
+    process.exit(0);
 });

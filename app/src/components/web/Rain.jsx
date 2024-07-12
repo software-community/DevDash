@@ -193,9 +193,9 @@ const Rain = () => {
   return (
     <AnimatedPage>
       <div className="fixed top-0 left-0 w-full h-full z-10 overflow-y-auto">
-        <canvas id="canvas" className="block"></canvas>
+       {!showH2 && <canvas id="canvas" className="block"></canvas>}
         <h1
-          className={`w-full text-center items-center justify-center absolute ${moveH1ToTop ? 'top-0 mt-4' : 'top-1/2 -translate-y-1/2'} text-3xl z-20 p-4 text-green-400 custom-text-shadow font-vt323 transition-all duration-1000`}
+          className={`w-full text-center items-center justify-center absolute ${moveH1ToTop ? 'relative top-0 mt-4' : 'top-1/2 -translate-y-1/2'} text-3xl z-20 p-4 text-green-400 custom-text-shadow font-vt323 transition-all duration-1000`}
         >
           Welcome to DevDash - CyberTrace
         </h1>
@@ -213,18 +213,17 @@ const Rain = () => {
             American competitor. You, as an ethical hacker of MI6, the intelligence
             service of the United Kingdom, are tasked with hacking into EuroBank's
             system and figuring out the necessary details to trace the involved
-            so-called employees and hand them over to the CIA. Natalia, a CIA ethical
-            hacker joins you as your partner, bringing her expertise to the mission.
+            so-called employees and hand them over to the CIA.
             The responsibility to not only safeguard JP Morgan's data but also
             preserve the integrity of the global financial infrastructure lies in
             your hands. It's your mission, should you choose to accept it?
           </div>
         )}
-        <div className="absolute bottom-20 w-full flex justify-center">
+        <div className="bottom-20 w-full flex justify-center">
           {showNextButton && (
             <button
               onClick={handleNext}
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              className="absolute bottom-20 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             >
               Next
             </button>
@@ -232,7 +231,7 @@ const Rain = () => {
           {showH2 && (
             <button
               onClick={startNextLevel}
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mt-6 rounded"
             >
               Start
             </button>
