@@ -109,103 +109,123 @@ const TransactionMine = ({ timer, setTimer, goToNextStep }) => {
 
   return (
     <AnimatedPage>
-    <div className="flex flex-col justify-center items-center h-screen w-screen p-4">
-      {transaction !== "Successful" && (
-        <div className="w-full max-w-lg">
-          <p className="text-center mb-4">{pubKey}</p>
-          <div className="p-5 grid text-xl justify-items-center bg-yellow-500 border-2 border-yellow-800 rounded-lg">
-            <div>
-              <div className='flex justify-between'>
-                <p className='text-center text-4xl pb-5'>Issue a transaction</p>
+      <div className="flex flex-col justify-center items-center h-screen w-screen p-4 bg-gray-900 text-white">
+        {transaction !== "Successful" && (
+          <div className="w-full max-w-lg">
+            <p className="text-center mb-4">{pubKey}</p>
+            <div className="p-5 grid text-xl justify-items-center bg-gray-800 border-2 rounded-lg">
+              <div>
+                <div className='flex justify-between'>
+                  <p className='text-center text-4xl pb-5'>Issue a transaction</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-2">
+                  <div className='flex flex-col'>
+                    <label>Recipient</label>
+                    <input readOnly={true} className="rounded-lg text-sm w-full p-2 bg-gray-700 text-white" placeholder="softcom_vault"></input>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label>Amount of SoftCoin</label>
+                    <input type="number" className="rounded-lg text-sm w-full p-2 bg-gray-700 text-white" placeholder="42069"></input>
+                  </div>
+
+                  <div className='flex flex-col'>
+                    <label>Public key</label>
+                    <input
+                      className="rounded-lg text-sm w-full p-2 bg-gray-700 text-white"
+                      placeholder="Enter your Public key"
+                      onChange={(e) => setInputPubKey(e.target.value)}
+                    ></input>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-5 w-full mt-4">
+                    <input type="submit" className="bg-blue-700 text-white rounded-lg p-2 cursor-pointer" value="Send"></input>
+                    <input type="reset" className="bg-red-700 text-white rounded-lg p-2 cursor-pointer" value="Reset"></input>
+                  </div>
+                </form>
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-2">
-                <div className='flex flex-col'>
-                  <label>Recipient</label>
-                  <input readOnly={true} className="rounded-lg text-sm w-full p-2" placeholder="softcom_vault"></input>
+              {transaction === "Failed" && (
+                <div className='flex flex-col place-items-center mt-4'>
+                  <p className='text-red-500 italic'>Wrong Public Key, try again...</p>
                 </div>
-
-                <div className='flex flex-col'>
-                  <label>Amount of SoftCoin</label>
-                  <input type="number" className="rounded-lg text-sm w-full p-2" placeholder="42069"></input>
-                </div>
-
-                <div className='flex flex-col'>
-                  <label>Public key</label>
-                  <input
-                    className="rounded-lg text-sm w-full p-2"
-                    placeholder="Enter your Public key"
-                    onChange={(e) => setInputPubKey(e.target.value)}
-                  ></input>
-                </div>
-
-                <div className="grid grid-cols-2 gap-5 w-full mt-4">
-                  <input type="submit" className="bg-blue-700 text-white rounded-lg p-2 cursor-pointer" value="Send"></input>
-                  <input type="reset" className="bg-red-700 text-white rounded-lg p-2 cursor-pointer" value="Reset"></input>
-                </div>
-              </form>
+              )}
             </div>
-
-            {transaction === "Failed" && (
-              <div className='flex flex-col place-items-center mt-4'>
-                <p className='text-red-700 italic'>Wrong Public Key, try again...</p>
-              </div>
-            )}
           </div>
-        </div>
-      )}
+        )}
 
-      {transaction === "Successful" && (
-        <div className={`p-5 grid text-xl justify-items-center w-full max-w-lg border-2 border-yellow-800 rounded-lg ${timeLeft > 0 ? 'bg-red-700' : 'bg-green-700'}`}>
-          <div className='flex flex-col justify-items-center gap-5'>
-            <p className='text-white'>Transaction details correct, waiting to be added to block</p>
-            <p className='text-white w-full text-center'>Time left: {timeLeft}</p>
+{transaction === "Successful" && (
+  <div className={`p-8 grid text-xl justify-items-center w-full max-w-lg border-2 ${timeLeft > 0 ? 'border-red-600 bg-red-800' : 'border-green-600 bg-green-800'} rounded-lg shadow-lg transition-colors duration-300`}>
+    <div className='flex flex-col justify-items-center gap-6'>
+      <p className='text-white text-2xl font-semibold text-center'>Transaction details correct, waiting to be added to block</p>
+      <p className='text-white w-full text-center text-3xl font-bold'>{timeLeft > 0 ? `Time left: ${timeLeft}` : 'Transaction Complete!'}</p>
+      {timeLeft <= 0 && <div>
+        <div className='flex flex-col gap-3 w-full'>
+        <p className='text-gray-300 text-lg font-medium'>Block Nonce: (Write it somewhere)</p>
+        <p className='text-white font-mono text-lg bg-opacity-30 bg-white px-3 py-2 rounded'>{initialBlockNonce}</p>
+        
+      </div>
+      <div className='flex flex-col gap-3 w-full'>
+        <p className='text-gray-300 text-lg font-medium'>Transaction Number:</p>
+        {timeLeft < 0 ? (
+          <p className='text-white bg-opacity-30 bg-white px-3 py-3 rounded'></p>
+        ) : (
+          <p className='text-white font-mono text-lg bg-opacity-30 bg-white px-3 py-2 rounded'>54150</p>
+        )}
+      </div>
+      <div className='flex flex-col gap-3 w-full'>
+        <p className='text-gray-300 text-lg font-medium'>Timestamp:</p>
+        {timeLeft < 0 ? (
+          <p className='text-white bg-opacity-30 bg-white px-3 py-3 rounded'></p>
+        ) : (
+          <p className='text-white font-mono text-lg bg-opacity-30 bg-white px-3 py-2 rounded'>{Math.floor(Date.now() / 1000)}</p>
+        )}
+      </div>
+      </div>}
 
-            <div className='flex flex-col gap-2'>
-              <p className='text-white'>Block Nonce: </p>
-              {timeLeft > 0 && (
-                <p className='text-white'>░░░░░░░░░░░░░░░</p>
-              )}
-              {timeLeft === 0 && (
-                <p className='text-white font-retro'>{initialBlockNonce}</p>
-              )}
-            </div>
-            <div className='flex flex-col gap-2'>
-              <p className='text-white'>Transaction Number: </p>
-              {timeLeft > 0 && (
-                <p className='text-white'>░░░░░░░░░░░░░░░</p>
-              )}
-              {timeLeft === 0 && (
-                <p className='text-white font-retro'>54150</p>
-              )}
-            </div>
-            <div className='flex flex-col gap-2'>
-              <p className='text-white'>Timestamp: </p>
-              {timeLeft > 0 && (
-                <p className='text-white'>░░░░░░░░░░░░░░░</p>
-              )}
-              {timeLeft === 0 && (
-                <p className='text-white font-retro'>{Math.floor(Date.now() / 1000)}</p>
-              )}
-            </div>
+      {/* <div className='flex flex-col gap-3 w-full'>
+        <p className='text-gray-300 text-lg font-medium'>Block Nonce: (Write it somewhere)</p>
+        {timeLeft > 0 ? (
+          <p className='text-white bg-opacity-30 bg-white px-3 py-3 rounded'></p>
+        ) : (
+          <p className='text-white font-mono text-lg bg-opacity-30 bg-white px-3 py-2 rounded'>{initialBlockNonce}</p>
+        )}
+      </div>
+      <div className='flex flex-col gap-3 w-full'>
+        <p className='text-gray-300 text-lg font-medium'>Transaction Number:</p>
+        {timeLeft > 0 ? (
+          <p className='text-white bg-opacity-30 bg-white px-3 py-3 rounded'></p>
+        ) : (
+          <p className='text-white font-mono text-lg bg-opacity-30 bg-white px-3 py-2 rounded'>54150</p>
+        )}
+      </div>
+      <div className='flex flex-col gap-3 w-full'>
+        <p className='text-gray-300 text-lg font-medium'>Timestamp:</p>
+        {timeLeft > 0 ? (
+          <p className='text-white bg-opacity-30 bg-white px-3 py-3 rounded'></p>
+        ) : (
+          <p className='text-white font-mono text-lg bg-opacity-30 bg-white px-3 py-2 rounded'>{Math.floor(Date.now() / 1000)}</p>
+        )}
+      </div> */}
 
-            {timeLeft === 0 && (
-              <div className='flex place-items-center flex-col gap-2 mt-4'>
-                <p className='italic text-green-100'>Congrats! You are upgraded to a miner</p>
-                <button
-                  className='bg-blue-700 text-white px-4 py-2 rounded-lg'
-                  onClick={ goToNextStep }
-                >Next</button>
-              </div>
-            )}
-          </div>
+      {timeLeft === 0 && (
+        <div className='flex place-items-center flex-col gap-4 mt-6'>
+          <p className='italic text-xl'>Congrats! You are upgraded to a miner</p>
+          <button
+            className='bg-teal-700 text-white text-lg font-semibold px-6 py-3 rounded-lg transition-colors shadow-md'
+            onClick={goToNextStep}
+          >
+            Next
+          </button>
         </div>
       )}
     </div>
-    <HelpBot 
-    level={3}/>
+  </div>
+)}
+      </div>
+      <HelpBot level={3} />
     </AnimatedPage>
-
   )
 }
 

@@ -56,7 +56,7 @@ const Noncense = () => {
             case 2:
                 return <TransactionMine timer={timer} setTimer={setTimer} goToNextStep={() => setStep(3)} />;
             case 3:
-                return <BlockMine timer={timer} setTimer={setTimer} entryNumber={entryNumber}/>;
+                return <BlockMine timer={timer} setTimer={setTimer} goToNextStep={() => setStep(2)} entryNumber={entryNumber}/>;
             default:
                 return null;
         }

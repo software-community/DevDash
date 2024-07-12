@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import png1 from '../../assets/1.png';
 import png2 from '../../assets/2.png';
@@ -11,6 +11,7 @@ import png8 from '../../assets/8.png';
 import png9 from '../../assets/9.png';
 import AnimatedPage from '../AnimatedPage';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { SampleContext } from '../../contexts/URLContext';
 
 const Mandelbrot = () => {
     document.body.style.overflow = 'auto';
@@ -19,7 +20,8 @@ const Mandelbrot = () => {
     const searchParams = new URLSearchParams(location.search);
     const entryNumber = searchParams.get('entryNumber');
 
-    console.log(entryNumber);
+    const { URL } = useContext(SampleContext)
+
     const navigate = useNavigate();
 
     const [grid1, setGrid1] = useState([
@@ -80,7 +82,7 @@ const Mandelbrot = () => {
                     entryNumber: entryNumber,
                     timeTaken: timeTaken
                 };
-                fetch('http://localhost:3000/updateTime', {
+                fetch(`${URL}/updateTime`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

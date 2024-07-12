@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import ChatBot from "react-simple-chatbot";
 import alluArjun from "../assets/alluArjun.png";
 import ohMyGoddo from "../assets/ohMyGoddo.png";
 import { useNavigate } from "react-router-dom";
+import { SampleContext } from "../contexts/URLContext";
 
 function sha256(ascii) {
   function rightRotate(value, amount) {
@@ -132,7 +133,6 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
   const navigate = useNavigate();
   const latestTimerRef = useRef(timer);
 
-  console.log("HelpBot rendered. Current timer value:", timer);
 
   // Update the ref whenever timer changes
   useEffect(() => {
@@ -141,6 +141,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
 
   const NextLevelComponent = () => {
     const [localTimeTaken, setLocalTimeTaken] = useState(null);
+    const { URL } = useContext(SampleContext)
 
     useEffect(() => {
       const capturedTimer = latestTimerRef.current;
@@ -168,7 +169,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
 
           console.log("Sending data to server:", formData);
 
-          const response = await fetch("http://localhost:3000/updateTime", {
+          const response = await fetch(`${URL}/updateTime`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -626,7 +627,6 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
 
   return (
     <div>
-      {entryNumber}
       <ChatBot
         steps={steps}
         floating={true}

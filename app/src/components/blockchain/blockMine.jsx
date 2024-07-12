@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+
 import "./Blockchain.css";
 import AnimatedPage from '../AnimatedPage';
 import HelpBot from '../HelpBot';
+import { SampleContext } from '../../contexts/URLContext';
 
 function sha256(ascii) {
     function rightRotate(value, amount) {
@@ -102,7 +104,7 @@ function sha256(ascii) {
 };
 
 
-const BlockMine = ({ timer, setTimer, entryNumber }) => {
+const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
     const [minedSuccesfully, setMinedSuccessfully] = useState('')
     const [pvtKey, setPvtKey] = useState('')
     const [inputPubKey, setInputPubKey] = useState('');
@@ -113,6 +115,8 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
     const [percentage, setPercentage] = useState(0);
     const [fetchCompleted, setFetchCompleted] = useState(false);
     let timeTaken = 0;
+
+    const { URL } = useContext(SampleContext)
 
     // const pushTodb = () => {
     //     const initialTimestamp = JSON.parse(localStorage.getItem('initialTimestamp'));
@@ -139,7 +143,7 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
                     timeTaken: timeTaken
                 };
 
-                await fetch('http://localhost:3000/updateTime', {
+                await fetch(`${URL}/updateTime`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -149,7 +153,7 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
 
                 setTimer(0);
 
-                await fetch('http://localhost:3000/setIsEnd', {
+                await fetch(`${URL}/setIsEnd`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -215,7 +219,7 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
 
     const fetchPercentageComplete = async () => {
         try {
-            const response = await fetch('http://localhost:3000/percentageComplete', {
+            const response = await fetch(`${URL}/percentageComplete`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -370,71 +374,72 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
 
     return (
         <AnimatedPage>
-            <div className="h-screen w-screen flex flex-col justify-center items-center">
+            <div className="min-h-screen w-full bg-gray-900 flex flex-col justify-center items-center p-4">
                 {minedSuccesfully !== "Successfull" && (
-                    <div className="p-5 grid text-xl justify-items-center w-[80vw] bg-yellow-500 border-2 border-yellow-800 rounded-lg">
-                        <div>
-                            <p className='text-center text-[2em] pb-5'>Mine Block</p>
-                            <p className='text-xs'>{finalBlockNonce}</p>
-                            <p>{pubKey}</p>
-                            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-2">
-
-                                <div className='flex flex-col'>
-                                    <label>Block Nonce</label>
+                    <div className="p-8 grid text-xl justify-items-center w-full max-w-2xl bg-gray-800 border-2 rounded-lg shadow-lg">
+                        <div className="w-full">
+                            <h2 className='text-center text-4xl font-bold text-white pb-6'>Mine Block</h2>
+                            <p className='text-xs text-gray-300 mb-2'>{finalBlockNonce}</p>
+                            <p className='text-sm text-gray-300 mb-4'>{pubKey}</p>
+                            <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-4">
+                                <div className='flex flex-col w-full'>
+                                    <label className="mb-1">Block Nonce</label>
                                     <input
-                                        className="rounded-lg text-sm w-[70vw] p-2"
+                                        className="rounded-lg text-sm w-full p-3 bg-gray-700 text-white"
                                         onChange={(e) => setInputBlockNonce(e.target.value)}
-                                    ></input>
+                                    />
                                 </div>
 
-
-                                <div className='flex flex-col'>
-                                    <label>Public key</label>
+                                <div className='flex flex-col w-full'>
+                                    <label className="mb-1">Public key</label>
                                     <input
-                                        className="rounded-lg text-sm w-[70vw] p-2"
+                                        className="rounded-lg text-sm w-full p-3 bg-gray-700 text-white"
                                         placeholder="Enter your Public key"
                                         onChange={(e) => setInputPubKey(e.target.value)}
-                                    ></input>
+                                    />
                                 </div>
 
-                                <div className='flex flex-col'>
-                                    <label>Transaction Number</label>
-                                    <input readOnly={true} className="rounded-lg text-sm w-[70vw] p-2" placeholder="54151"></input>
+                                <div className='flex flex-col w-full'>
+                                    <label className="mb-1">Transaction Number</label>
+                                    <input 
+                                        readOnly={true} 
+                                        className="rounded-lg text-sm w-full p-3 bg-gray-700 text-white" 
+                                        placeholder="54151"
+                                    />
                                 </div>
 
-                                <div className="grid-cols-2 grid gap-5">
-                                    <input type="submit" className="bg-blue-500 text-white rounded-lg p-2 w-[20vw] cursor-pointer" value="Send"></input>
-                                    <input type="reset" className="bg-red-500 text-white rounded-lg p-2 w-[20vw] cursor-pointer" value="Reset"></input>
+                                <div className="grid grid-cols-2 gap-4 w-full mt-4">
+                                    <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg p-3 transition-colors duration-300">Mine</button>
+                                    <button type="reset" className="bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg p-3 transition-colors duration-300">Reset</button>
                                 </div>
-
                             </form>
                         </div>
                     </div>
                 )}
 
                 {minedSuccesfully === "Failed" && (
-                    <div className="p-5 grid text-xl justify-items-center w-[80vw] bg-red-500 border-2 border-yellow-800 rounded-lg">
-                        <div className='flex flex-col place-items-center'>
-                            <p className=' italic'>Wrong Public Key or Block Nonce, try again...</p>
-                        </div>
+                    <div className="p-6 mt-4 text-xl text-center w-full max-w-2xl bg-red-700 border-2 border-red-800 rounded-lg shadow-lg">
+                        <p className='text-white italic'>Wrong Public Key or Block Nonce, try again...</p>
                     </div>
                 )}
 
                 {minedSuccesfully === "Successfull" && (
-                    <div className="p-5 grid text-xl justify-items-center w-[80vw] bg-green-500 border-2 border-green-800 rounded-lg">
-                        <div className='flex flex-col place-items-center'>
-                            <p className='text-white italic text-3xl'>Details Correct...</p>
-                            <p className='text-white italic text-sm'>Waiting for confirmation</p>
-                            <p className='text-white italic text-lm'>{percentage} %</p>
-                        </div>
+                    <div className="p-8 text-center w-full max-w-2xl bg-green-700 border-2 border-green-800 rounded-lg shadow-lg">
+                        <h3 className='text-white italic text-3xl font-bold mb-2'>Details Correct...</h3>
+                        <p className='text-white italic text-xl mb-4'>Waiting for confirmation</p>
+                        <p className='text-white text-4xl font-bold'>{percentage}%</p>
                     </div>
-
                 )}
+                            <button
+        className="mt-5 bg-blue-700 text-white px-4 py-2 rounded-lg"
+        onClick={goToNextStep}
+      >
+        Back
+      </button>
 
             </div>
             <HelpBot level={'blockmine'} />
         </AnimatedPage>
-
     )
 }
 
