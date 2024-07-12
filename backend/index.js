@@ -6,7 +6,7 @@ require('dotenv').config();
 
 
 const app = express();
-const port = process.env.PORT || process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const clientOptions = { 
     serverApi: { 
