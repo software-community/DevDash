@@ -4,47 +4,210 @@ const MySQLTerminal = () => {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState([]);
   const [authenticated, setAuthenticated] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = (event) => {
     event.preventDefault();
-    if (username === 'admin' && password === 'password') {
+    if (username === "admin" && password === "password") {
       setAuthenticated(true);
     } else {
-      alert('Invalid username or password');
+      alert("Invalid username or password");
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const command = input.trim().toLowerCase();
+    console.log(command);
 
     let result;
     switch (command) {
-      case "select * from Employees":
+      case "select * from employees":
         result = [
-          { Employee: "Alice", age: 25, IP: "1.0.0.32" },
-          { Employee: "Bob", age: 30, IP: "1.0.0.36" },
-          { Employee: "Charlie", age: 28, IP: "1.0.0.35" },
+          {
+            Employee: "Aegon Targaryen",
+            Age: 25,
+            IP: "192.168.1.1",
+            Designation: "Analyst",
+          },
+          {
+            Employee: "Rob Stark",
+            Age: 30,
+            IP: "192.168.1.2",
+            Designation: "Senior Analyst",
+          },
+          {
+            Employee: "Charles White",
+            Age: 28,
+            IP: "192.168.1.3",
+            Designation: "Financial Advisor",
+          },
+          {
+            Employee: "Steve Robs",
+            Age: 32,
+            IP: "192.168.1.4",
+            Designation: "Branch Manager",
+          },
+          {
+            Employee: "Eve",
+            Age: 29,
+            IP: "192.168.1.5",
+            Designation: "Loan Officer",
+          },
+          {
+            Employee: "Jonas Kahnwald",
+            Age: 25,
+            IP: "192.168.1.6",
+            Designation: "Customer Service Representative",
+          },
+          {
+            Employee: "Grace",
+            Age: 27,
+            IP: "192.168.1.7",
+            Designation: "IT Specialist",
+          },
+          {
+            // The culprit, if you change name here, you need to change the culprit name in HelpBot.jsx as well(id: hacker-input)
+            Employee: "Heidi",
+            Age: 24,
+            IP: "192.168.1.8",
+            Designation: "Cybersecurity Specialist",
+          },
+          {
+            Employee: "Mutahar Anas",
+            Age: 31,
+            IP: "192.168.2.1",
+            Designation: "Investment Banker",
+          },
+          {
+            Employee: "Chloe Couture",
+            Age: 36,
+            IP: "192.168.3.1",
+            Designation: "Compliance Officer",
+          },
+          {
+            Employee: "Kenny",
+            Age: 33,
+            IP: "192.168.4.1",
+            Designation: "Risk Manager",
+          },
+          {
+            Employee: "Lee Everett",
+            Age: 29,
+            IP: "192.168.4.2",
+            Designation: "Treasury Analyst",
+          },
+          {
+            Employee: "Malenia",
+            Age: 22,
+            IP: "192.168.4.3",
+            Designation: "Bank Teller",
+          },
         ];
         break;
       case "show tables":
         result = [
           { Tables_in_database: "Employees" },
-          { Tables_in_database: "products" },
+          { Tables_in_database: "OutboundNetworkEvents" },
         ];
         break;
-      case "describe users":
+      case "describe employees":
         result = [
-          { Field: "user", Type: "varchar(255)" },
-          { Field: "info", Type: "varchar(255)" },
-          { Field: "age", Type: "int" },
-          { Field: "location", Type: "varchar(255)" },
+          { Field: "Employee", Type: "varchar(255)" },
+          { Field: "Age", Type: "int" },
+          { Field: "Designation", Type: "varchar(255)" },
+          { Field: "IP", Type: "varchar(255)" },
         ];
         break;
+      case "select * from outboundnetworkevents":
+        console.log("found case");
+        result = [
+          {
+            Event_ID: "001",
+            URL: "eurobank.uk",
+            Employee_IP: "192.168.1.1",
+            Event_Date: "2024-07-15",
+            Event_Time: "21:30 GMT",
+          },
+          {
+            Event_ID: "002",
+            URL: "eurobank.uk",
+            Employee_IP: "192.168.1.2",
+            Event_Date: "2024-07-15",
+            Event_Time: "21:45 GMT",
+          },
+          {
+            Event_ID: "003",
+            URL: "eurobank.uk",
+            Employee_IP: "192.168.1.3",
+            Event_Date: "2024-07-15",
+            Event_Time: "22:00 GMT",
+          },
+          {
+            Event_ID: "004",
+            URL: "eurobank.uk",
+            Employee_IP: "192.168.1.4",
+            Event_Date: "2024-07-15",
+            Event_Time: "19:30 GMT",
+          },
+          {
+            Event_ID: "005",
+            URL: "eurobank.uk",
+            Employee_IP: "192.168.1.5",
+            Event_Date: "2024-07-15",
+            Event_Time: "20:45 GMT",
+          },
+          {
+            Event_ID: "006",
+            URL: "otherbank.com",
+            Employee_IP: "192.168.2.1",
+            Event_Date: "2024-07-15",
+            Event_Time: "21:30 GMT",
+          },
+          {
+            Event_ID: "007",
+            URL:
+              "https://www.google.com/search?q=how+to+get+gf&oq=how+to+get+gf",
+            Employee_IP: "192.168.1.6",
+            Event_Date: "2024-07-15",
+            Event_Time: "22:55 GMT",
+          },
+          {
+            Event_ID: "008",
+            URL: "eurobank.uk",
+            Employee_IP: "192.168.1.7",
+            Event_Date: "2024-07-15",
+            Event_Time: "21:10 GMT",
+          },
+          {
+            Event_ID: "009",
+            URL: "someotherbank.com",
+            Employee_IP: "192.168.3.1",
+            Event_Date: "2024-07-15",
+            Event_Time: "21:30 GMT",
+          },
+          // culprit
+          {
+            Event_ID: "010",
+            URL: "eurobank.uk",
+            Employee_IP: "192.168.1.8",
+            Event_Date: "2024-07-15",
+            Event_Time: "22:20 GMT",
+          },
+        ];
+        break;
+        case "describe outboundnetworkevents":
+          result = [
+            { Field: "Event_ID", Type: "varchar(255)" },
+            { Field: "URL", Type: "varchar(255)" },
+            { Field: "Employee_IP", Type: "varchar(255)" },
+            { Field: "Event_Date", Type: "date" },
+            { Field: "Event_Time", Type: "time" },
+          ];
+          break;
       default:
-        result = `Error: Command not recognized - "${command}"`;
+        result = `Error: Invalid command - "${command}". Check syntax or if table exists. `;
         break;
     }
 
@@ -117,7 +280,10 @@ const MySQLTerminal = () => {
             placeholder="Password"
             className="bg-gray-800 text-white px-2 py-1 mb-2 rounded"
           />
-          <button type="submit" className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-1 rounded">
+          <button
+            type="submit"
+            className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-1 rounded"
+          >
             Login
           </button>
         </form>

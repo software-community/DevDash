@@ -128,7 +128,7 @@ function caeserCipher(str, num) {
   return newString;
 }
 
-const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
+const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
   const navigate = useNavigate();
   const latestTimerRef = useRef(timer);
 
@@ -208,6 +208,10 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
   };
 
   const getInitialSteps = (level) => {
+
+  const blockNonce = localStorage.getItem('initialBlockNonce');
+  const pvtKey = localStorage.getItem('pvtKey');
+   
     if (level === 1) {
       return [
         {
@@ -221,17 +225,26 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
         {
           id: 1,
           message:
-            "Welcome to CyberTrace. Hacking happened and hacker to find. u help. story bs",
+            "Hello there! Welcome to CyberTrace. I'm here to help you with your investogation.",
           trigger: 2,
         },
         {
           id: 2,
           message:
-            "Now that story bs over, any specific component u need help with",
+            "We have three tools in our arsenal: a minimalist text-based browser, a terminal, and an Azure cloud service.",
           trigger: 3,
         },
         {
           id: 3,
+          message:"Our final goal is to access the company's Azure database to find IP of the hacker. Let's get started!",
+          trigger: 4,
+        },
+        {
+          id: 4,
+          message: "The company's url is eurobank.eu. It should help you get started. Good luck!",
+        },
+        {
+          id: 4,
           options: [
             { value: "browser", label: "Browser", trigger: "browser-help" },
             { value: "terminal", label: "Terminal", trigger: "terminal-help" },
@@ -246,12 +259,17 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
         {
           id: "browser-help",
           message:
-            "Here you need to access bank's files to get ssh credentials, try manipulating url",
+            "Here you need to access bank's files to get ssh credentials, try manipulating url to get access to files.",
           trigger: 2,
         },
         {
           id: "terminal-help",
-          message: "Here are the several commands that would be of help:",
+          message: "Here you need to infilterate the company's ssh-protected server to get files conatining its Azure credentials.",
+          trigger: "terminal-help-commands",
+        },
+        {
+          id: "terminal-help-commands",
+          message: "Here are the several commands(enclosed in {}) that would be of help:",
           trigger: "terminal-command-1",
         },
         {
@@ -282,14 +300,33 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
         },
         {
           id: "azure-help",
-          message: "You have selected Azure. How can I assist you with Azure?",
-          trigger: 2,
+          message: "The company's database is stored in Azure. You need to access it to find the hacker's IP.",
+          trigger: "azure-help-commands",
+        },
+        {
+          id: "azure-help-commands",
+          message: "Here are the several commands(enclosed in {}) you can use:",
+          trigger: "azure-command-1",
+        },
+        {
+          id: "azure-command-1",
+          message: "{show tables} : Show all tables stored in database",
+          trigger: "azure-command-2",
+        },
+        {
+          id: "azure-command-2",
+          message: "{select * from <table-name>} : Select all records from a table",
+          trigger: "azure-command-3",
+        },
+        {
+          id: "azure-command-3",
+          message: "{describe <table-name>} : Describe the table",
         },
         {
           id: "hacker-input",
           user: true,
           trigger: (inputValue) => {
-            if (inputValue.value === "bad") {
+            if (inputValue.value === "Heidi") {
               return "congo-msg";
             } else {
               return "wrong-ans";
@@ -316,13 +353,39 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
       return [
         {
           id: 1,
-          message: "Welcome to Noncence!",
-          trigger: 2,
+          message: "Welcome to Noncence! Here you will learn how to perform a transaction using your private key.",
+          trigger: 'ask-pvtKey',
+        },
+        {
+          id: 'ask-pvtKey',
+          message: "First off, do you remember your private key?",
+          trigger: 'ask-pvtKey-options',
+        },
+        {
+          id: 'ask-pvtKey-options',
+          options: [
+            { value: "yes", label: "Yes", trigger: "do-know" },
+            { value: "no", label: "No", trigger: "dont-know" },
+          ]
+        },
+        {
+          id: 'do-know',
+          message: "Great, but I'm gonna tell you anyways.",
+          trigger: 'give-pvtKey'
+        },
+        {
+          id: 'dont-know',
+          message: "Thou art disappointing, foolish child. Yet, fret not, for I am here for thee.",
+          trigger: 'give-pvtKey'
+        },
+        {
+          id: 'give-pvtKey',
+          message: "Your private key is: " + pvtKey,
+          trigger: 2
         },
         {
           id: 2,
-          message:
-            "You should have your public key by now. Here are the steps to generate your private key:",
+          message: "Now that you have your private key, follow these steps to obtain your public key:",
           trigger: 3,
         },
         {
@@ -370,7 +433,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
         {
           id: 7,
           message:
-            "Done! You have your private key. Use it to mine your block.",
+            "Done! You have your private key. Use it to issue your transaction.",
           trigger: "choice-msg",
         },
         {
@@ -394,11 +457,86 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
           id: 1,
           message:
             "You are ready to mine your block. To get block nonce, you will require sha256 and caeser cipher encryption methods. Let's start!",
+          trigger: "ask-nonce",
+        },
+        {
+          id: 'ask-nonce',
+          message: "First off, do you remember your previous transaction's block nonce",
+          trigger: 'ask-nonce-options',
+        },
+        {
+          id: 'ask-nonce-options',
+          options: [
+            { value: "yes", label: "Yes", trigger: "do-know" },
+            { value: "no", label: "No", trigger: "dont-know" },
+          ]
+        },
+        {
+          id: 'do-know',
+          message: "Great, but I'm gonna tell you anyways.",
+          trigger: 'give-nonce'
+        },
+        {
+          id: 'dont-know',
+          message: "Thou art disappointing, foolish child. Yet, fret not, for I am here for thee.",
+          trigger: 'give-nonce'
+        },
+        {
+          id: 'give-nonce',
+          message: "Your previous transaction's block nonce is: " + blockNonce,
+          trigger: 'step-1'
+        },
+        {
+          id: 'step-1',
+          message: "1. Isolate letters and numbers",
+          trigger: "step-2",
+        },
+        {
+          id: 'step-2',
+          message: "2. Use caesar cipher to encrypt the letters. I can help you with that if you want.",
+          trigger: "step-3",
+        },
+        {
+          id: 'step-3',
+          message: "3. Merge this with the numbers and pass it through SHA-256.",
+          trigger: "steps-done",
+        },
+        {
+          id: 'steps-done',
+          message: "4. The hash you get is your block nonce! Use this with your public key to mine the block.",
           trigger: "choice-msg",
         },
         {
+          id: "steps-help",
+          options: [
+            { value: "1", label: "1st", trigger: "1-extra" },
+            { value: "2", label: "2nd", trigger: "2-extra" },
+            { value: "3", label: "3rd", trigger: "3-extra" },
+          ]
+        },
+        {
+          id: '1-extra',
+          message: "For example: “m6r949mat7r1x” ->  “mrmatrx” and “694971”",
+          trigger: "after-initial-choice",
+        },
+        {
+          id: '2-extra',
+          message: "For example: “mrmatrx” -> “pupdwua” with shift 3",
+          trigger: "after-initial-choice",
+        },
+        {
+          id: '3-extra',
+          message: "For example: hash of “pupdwua694971” -> 594562439dc1c180df219f27e918efa15bfdc615ef7aa40fa8338540a40faae5",
+          trigger: "after-initial-choice",
+        },
+        {
           id: "choice-msg",
-          message: "Choose the encryption method you want to use:",
+          message: "Anything you need help with?",
+          trigger: "choice",
+        },
+        {
+          id: "after-initial-choice",
+          message: "Anything else you need help with?",
           trigger: "choice",
         },
         {
@@ -410,6 +548,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
               label: "Caeser Cipher",
               trigger: "caeser-string-msg",
             },
+            { value: "extra-help", label: "Help with steps", trigger: "steps-help" },
           ],
         },
         {
@@ -426,7 +565,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
           id: "sha256-response",
           component: <SHA256Component />,
           asMessage: true,
-          trigger: "choice-msg",
+          trigger: "after-initial-choice",
         },
         {
           id: "caeser-string-msg",
@@ -458,14 +597,14 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
           id: "caeser-computation",
           component: <CaeserCipherComponent />,
           asMessage: true,
-          trigger: "choice-msg",
+          trigger: "after-initial-choice",
         },
       ];
     } else {
       return [
         {
           id: 1,
-          message: "This shouldn't render",
+          message: "Invalid level moment.",
           end: true,
         },
       ];
@@ -483,6 +622,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer }) => {
     userBubbleColor: "#666",
     userFontColor: "#fff",
   };
+
 
   return (
     <div>
@@ -525,6 +665,8 @@ const SHA256Component = ({ previousStep }) => {
     </div>
   );
 };
+
+
 
 // const RedirectComponent = ({ navigate, entryNumber, timer, setTimer }) => {
 //   let timeTaken = 0

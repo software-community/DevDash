@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Rain = () => {
   const navigate = useNavigate();
-  
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const entryNumber = searchParams.get('entryNumber');
+  const entryNumber = searchParams.get("entryNumber");
 
   const animations = {
     initial: { opacity: 0 },
@@ -29,8 +29,12 @@ const Rain = () => {
     );
   };
 
+  const [showH2, setShowH2] = useState(false);
+  const [moveH1ToTop, setMoveH1ToTop] = useState(false);
+  const [showNextButton, setShowNextButton] = useState(true);
+
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -41,9 +45,67 @@ const Rain = () => {
     canvas.height = ch;
 
     let charArr = [
-      "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-      "1", "2", "3", "4", "5", "6", "7", "8",
-      "А", "В", "Г", "Д", "Є", "Ѕ", "З", "И", "Ѳ", "І", "К", "Л", "М", "Н", "Ѯ", "Ѻ", "П", "Ч", "Р", "С", "Т", "Ѵ", "Ф", "Х", "Ѱ", "Ѿ", "Ц"
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y",
+      "z",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "А",
+      "В",
+      "Г",
+      "Д",
+      "Є",
+      "Ѕ",
+      "З",
+      "И",
+      "Ѳ",
+      "І",
+      "К",
+      "Л",
+      "М",
+      "Н",
+      "Ѯ",
+      "Ѻ",
+      "П",
+      "Ч",
+      "Р",
+      "С",
+      "Т",
+      "Ѵ",
+      "Ф",
+      "Х",
+      "Ѱ",
+      "Ѿ",
+      "Ц",
     ];
 
     let maxCharCount = 100;
@@ -57,12 +119,14 @@ const Rain = () => {
       constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.value = '';
+        this.value = "";
         this.speed = 0;
       }
 
       draw(ctx) {
-        this.value = charArr[Math.floor(Math.random() * charArr.length)].toUpperCase();
+        this.value = charArr[
+          Math.floor(Math.random() * charArr.length)
+        ].toUpperCase();
         this.speed = (Math.random() * fontSize * 3) / 4 + (fontSize * 3) / 4;
 
         ctx.fillStyle = "rgba(0, 255, 0)";
@@ -106,35 +170,75 @@ const Rain = () => {
       ctx.fillRect(0, 0, cw, ch);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     update();
 
     // Cleanup function
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const handleNext = () => {
+    setMoveH1ToTop(true);
+    setShowH2(true);
+    setShowNextButton(false);
+  };
+
   const startNextLevel = () => {
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
     navigate(`/Level-2?entryNumber=${entryNumber}`);
   };
 
   return (
     <AnimatedPage>
-      <div className="fixed top-0 left-0 w-full h-full z-10">
+      <div className="fixed top-0 left-0 w-full h-full z-10 overflow-y-auto">
         <canvas id="canvas" className="block"></canvas>
-        <h1 className="w-full text-center items-center justify-center absolute top-1/2 -translate-y-1/2 text-3xl z-20 text-center p-4 text-green-400 custom-text-shadow font-vt323">
+        <h1
+          className={`w-full text-center items-center justify-center absolute ${moveH1ToTop ? 'top-0 mt-4' : 'top-1/2 -translate-y-1/2'} text-3xl z-20 p-4 text-green-400 custom-text-shadow font-vt323 transition-all duration-1000`}
+        >
           Welcome to DevDash - CyberTrace
         </h1>
+          {showH2 && (
+          <div className="w-11/12 mx-auto mt-5 text-center items-center justify-center text-xl z-20 p-1 text-green-400 custom-text-shadow font-vt323 overflow-y-auto">
+            In the heart of New York City's financial network, JP Morgan's servers
+            have been compromised by a massive data breach via a Cross-Site
+            Scripting (XSS) attack. Date of Attack - 15/07/24 Time of Attack - 22:00
+            to 23:00 (GMT) Initial investigations point to a troubling origin: a
+            small group of hackers masquerading as employees in EuroBank, a respected
+            European banking institution, are misusing the company's network.
+            EuroBank has refused to participate in the investigation with British
+            agencies and is using its financial power to halt the investigation. It
+            claims that all of this is just a ploy to tarnish its reputation by its
+            American competitor. You, as an ethical hacker of MI6, the intelligence
+            service of the United Kingdom, are tasked with hacking into EuroBank's
+            system and figuring out the necessary details to trace the involved
+            so-called employees and hand them over to the CIA. Natalia, a CIA ethical
+            hacker joins you as your partner, bringing her expertise to the mission.
+            The responsibility to not only safeguard JP Morgan's data but also
+            preserve the integrity of the global financial infrastructure lies in
+            your hands. It's your mission, should you choose to accept it?
+          </div>
+        )}
         <div className="absolute bottom-20 w-full flex justify-center">
-          <button
-            onClick={startNextLevel}
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Start
-          </button>
+          {showNextButton && (
+            <button
+              onClick={handleNext}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Next
+            </button>
+          )}
+          {showH2 && (
+            <button
+              onClick={startNextLevel}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Start
+            </button>
+          )}
         </div>
+        
       </div>
     </AnimatedPage>
   );

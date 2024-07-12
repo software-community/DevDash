@@ -432,7 +432,7 @@ const BlockMine = ({ timer, setTimer, entryNumber }) => {
                 )}
 
             </div>
-            <HelpBot level={'blockmine'}/>
+            <HelpBot level={'blockmine'} />
         </AnimatedPage>
 
     )
