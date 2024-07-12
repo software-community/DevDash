@@ -3,7 +3,7 @@ import React, { createContext } from 'react';
 export const SampleContext = createContext();
 
 const URLContext = ({ children }) => {
-  const URL = "http://localhost:3000";
+  const URL = "https://softcomdevdashalpha.onrender.com";
   
   return (
     <SampleContext.Provider value={{ URL }}>
