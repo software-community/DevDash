@@ -267,12 +267,39 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
           id: "browser-help",
           message:
             "Here you need to access bank's files to get ssh credentials, try manipulating url to get access to files.",
-          trigger: "choice",
+          trigger: "browser-help-extra-msg",
+        },
+        {
+          id: "browser-help-extra-msg",
+          message: "Think you got it?",
+          trigger: "browser-help-extra-choice",
+        },
+        {
+          id: "browser-help-extra-choice",
+          options: [
+            { value: "Yes", label: "Yes", trigger: "browser-help-extra-no" },
+            { value: "No", label: "No", trigger: "browser-help-extra" },
+          ],
+        },
+        {
+          id: "browser-help-extra-no",
+          message: "Great! Let's move on.",
+          trigger: "choice-msg",
+        },
+        {
+          id: "browser-help-extra",
+          message: "Try adding /files to the end of the url to access the files.",
+          trigger: "choice-msg",
         },
         {
           id: "terminal-help",
           message: "Here you need to infilterate the company's ssh-protected server to get files conatining its Azure credentials.",
-          trigger: "terminal-help-commands",
+          trigger: "terminal-help-commands-table",
+        },
+        {
+          id: "terminal-help-commands-table",
+          component: <CommandTable />,
+          trigger: "choice-msg",
         },
         {
           id: "terminal-help-commands",
@@ -303,7 +330,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "terminal-command-5",
           message: "{cat <filename>} : to open file",
-          trigger: "choice",
+          trigger: "choice-msg",
         },
         {
           id: "azure-help",
@@ -328,7 +355,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "azure-command-3",
           message: "{describe <table-name>} : Describe the table",
-          trigger: "choice"
+          trigger: "choice-msg",
         },
         {
           id: "hacker-input",
@@ -354,7 +381,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "wrong-ans",
           message: "Wrong answer. Try again!",
-          trigger: "choice",
+          trigger: "choice-msg",
         },
       ];
     } else if (level === 3) {
@@ -673,6 +700,36 @@ const SHA256Component = ({ previousStep }) => {
   );
 };
 
+const CommandTable = () => {
+  const commands = [
+    { command: "1. ssh <username>@<host> -p <port> => <password>", function: " : to files access" },
+    { command: "2. ls", function: " : list files" },
+    { command: "3. ls-a", function: " : list all files (including hidden)" },
+    { command: "4. clear", function: " : clear terminal" },
+    { command: "5. cat <filename>", function: " : to open file" }
+  ];
+
+  return (
+    <div className="table-responsive" style={{ overflowX: "auto" }}>
+      <table className="table text-nowrap">
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          {commands.map((row, index) => (
+            <tr key={index}>
+              <td>{row.command}</td>
+              <td>{row.function}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 
 // const RedirectComponent = ({ navigate, entryNumber, timer, setTimer }) => {

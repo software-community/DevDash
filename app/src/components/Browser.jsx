@@ -1,41 +1,52 @@
 import React, { useState } from "react";
+import ohMyGoddo from "../assets/ohMyGoddo.png";
+import { useWindowContext } from "../contexts/TerminalContext";
 // import "./Browser.css"; // Import the CSS file for the Browser component
 
 const Browser = () => {
-  const [url, setUrl] = useState("");
+  // const [url, setUrl] = useState("");
+  const { url, setUrl, currentContent, setCurrentContent } = useWindowContext();
   const [history, setHistory] = useState([]);
-  const [currentContent, setCurrentContent] = useState("Welcome to the Browser! Enter a URL to get started.");
+  // const [currentContent, setCurrentContent] = useState("Welcome to the Browser! Enter a URL to get started.");
 
-  const eurobankInfo = {
-    Username: "kris",
-    Password: "heheheha",
-    Host: "localhost",
-    Port: "1234"
+  
+  const eurobankSSHCred = { // if change here, do in sshVerify.js as well
+    username: "admin",
+    password: "bankEuro",
+    host: "localhost",
+    port: "1234"
   };
 
   const formatEurobankInfo = (info) => {
     return (
       <div>
-        <p>
-          <strong>Host:</strong> {info.Host}
-        </p>
-        <p>
-          <strong>Port:</strong> {info.Port}
-        </p>
-        <p>
-          <strong>Username:</strong> {info.Username}
-        </p>
-        <p>
-          <strong>Password:</strong> {info.Password}
-        </p>
+        <h2 className="text-xl font-bold mb-4">SSH credentials (confidential)</h2>
+      <table className="table-auto border-collapse border border-gray-400 w-full text-left">
+        <thead>
+          <tr>
+            <th className="border border-gray-400 px-4 py-2">Field</th>
+            <th className="border border-gray-400 px-4 py-2">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(info).map(([key, value]) => (
+            <tr key={key}>
+              <td className="border border-gray-400 px-4 py-2">{key}</td>
+              <td className="border border-gray-400 px-4 py-2">{value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       </div>
+      
     );
   };
 
   const urlMappings = {
     "https://www.google.com": "sundar pichai moment",
-    "https://www.eurobank.eu/files": eurobankInfo,
+    "https://www.eurobank.eu/files": eurobankSSHCred,
     "https://www.eurobank.eu": "ain't nothin around here",
+    "https://www.ohmygoddo.omg": { type: "image", src: ohMyGoddo },
   };
 
   const handleNavigate = (event) => {
@@ -65,6 +76,8 @@ const Browser = () => {
 
     if (typeof output === "object" && output.Host) {
       setCurrentContent(formatEurobankInfo(output));
+    } else if (typeof output === "object" && output.type === "image") {
+      setCurrentContent(<img src={output.src} alt="Browser content" />);
     } else {
       setCurrentContent(output);
     }
@@ -94,7 +107,9 @@ const Browser = () => {
           Go
         </button>
       </form>
-      <div className="bg-gray-800 p-4 rounded-lg flex-grow overflow-auto">{currentContent}</div>
+      <div className="bg-gray-800 p-4 rounded-lg text-xl flex-grow overflow-auto flex items-center justify-center">
+        {currentContent}
+      </div>
     </div>
   );
 };

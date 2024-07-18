@@ -1,6 +1,6 @@
-const sshCredentials = {
-    username: "kris",
-    password: "heheheha",
+const sshCredentials = { // if change here, do in Browser.jsx as well
+    username: "admin",
+    password: "bankEuro",
     host: "localhost",
     port: "1234"
   };

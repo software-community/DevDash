@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useWindowContext } from "../contexts/TerminalContext";
 
 const MySQLTerminal = () => {
+  const { mysqlHistory, setMysqlHistory, authenticated, setAuthenticated } = useWindowContext();
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState([]);
-  const [authenticated, setAuthenticated] = useState(false);
+  // const [history, setHistory] = useState([]);
+  // const [authenticated, setAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -213,7 +215,7 @@ const MySQLTerminal = () => {
 
     const commandOutput = Array.isArray(result) ? formatOutput(result) : result;
     const historyEntry = { command, output: commandOutput };
-    setHistory([...history, historyEntry]); // Append new entry to history
+    setMysqlHistory([...mysqlHistory, historyEntry]); // Append new entry to history
     setInput("");
   };
 
@@ -294,7 +296,7 @@ const MySQLTerminal = () => {
   return (
     <div className="bg-black text-white p-4 h-full flex flex-col">
       <div className="overflow-y-auto flex-grow">
-        {history.map((entry, index) => (
+        {mysqlHistory.map((entry, index) => (
           <div key={index}>
             <div className="command">{`> ${entry.command}`}</div>
             <div className="output whitespace-pre-wrap text-nowrap overflow-x-auto">

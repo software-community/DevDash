@@ -9,6 +9,7 @@ import Intro2 from './components/blockchain/intro2.jsx';
 import Window from './components/Window.jsx';
 import Result from './components/Result.jsx';
 import LandscapeWarning from './components/LandscapeWarning.jsx';
+import { WindowProvider } from './contexts/TerminalContext.jsx';
 import './index.css'; // Import the CSS file
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
     }, []);
 
     return (
+    <WindowProvider>
         <BrowserRouter>
             <LandscapeWarning />
             <div className="app-content">
@@ -51,6 +53,7 @@ function App() {
                 </Routes>
             </div>
         </BrowserRouter>
+    </WindowProvider>
     );
 }
 
