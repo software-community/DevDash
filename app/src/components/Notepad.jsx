@@ -1,7 +1,9 @@
 import React from "react";
+import AnimatedPage from "./AnimatedPage";
 
 const Notepad = ({ content, onClose, fileName }) => {
   return (
+    <AnimatedPage>
     <div className="bg-gray-900 text-white h-full flex flex-col relative rounded-md">
       <div className="bg-gray-900 flex items-center justify-between pl-2 rounded-md">
         <span className="text-lg font-bold">{fileName}</span>
@@ -18,6 +20,7 @@ const Notepad = ({ content, onClose, fileName }) => {
         ))}
       </div>
     </div>
+    </AnimatedPage>
   );
 };
 

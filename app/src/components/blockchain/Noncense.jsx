@@ -65,12 +65,11 @@ const Noncense = () => {
     return (
 
         <div className="flex flex-col items-center justify-center min-h-screen gap-5 p-5 bg-gray-900 text-white">
-            <div className="fixed top-0 w-full max-w-xs text-center mt-5">
+            <div className="top-0 w-full max-w-xs text-center mt-5 mb-5">
                 <div className="text-lg font-bold mb-2">DevDash - Noncense</div>
                 <div className="text-2xl">Timer: {formatTimer(timer)}</div>
             </div>
                 {renderStepComponent()}
-
         </div>
     );
 };

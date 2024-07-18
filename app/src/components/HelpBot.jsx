@@ -232,7 +232,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: 2,
           message:
-            "We have three tools in our arsenal: a minimalist text-based browser, a terminal, and an Azure cloud service.",
+            "We have three tools in our arsenal: a minimalist text-based browser, a terminal, and Azure cloud service.",
           trigger: 3,
         },
         {
@@ -243,7 +243,12 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: 4,
           message: "The company's url is eurobank.eu. It should help you get started. Good luck!",
-          trigger: "choice-msg"
+          trigger: 5
+        },
+        {
+          id: 5,
+          message: "And remember, the hacking took place on 15th August 2021, between 2200 to 2300 hours GMT.",
+          trigger: "choice-msg",
         },
         {
           id: "choice-msg",
@@ -288,7 +293,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: "browser-help-extra",
-          message: "Try adding /files to the end of the url to access the files.",
+          message: "Try adding /files to the end of the url to access the company's files.",
           trigger: "choice-msg",
         },
         {
@@ -302,66 +307,25 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
           trigger: "choice-msg",
         },
         {
-          id: "terminal-help-commands",
-          message: "Here are the several commands(enclosed in {}) that would be of help:",
-          trigger: "terminal-command-1",
-        },
-        {
-          id: "terminal-command-1",
-          message:
-            "{ssh <username>@<host> -p <port> => <password>} : to files access",
-          trigger: "terminal-command-2",
-        },
-        {
-          id: "terminal-command-2",
-          message: "{ls} : list files",
-          trigger: "terminal-command-3",
-        },
-        {
-          id: "terminal-command-3",
-          message: "{ls-a} : list all files (including hidden)",
-          trigger: "terminal-command-4",
-        },
-        {
-          id: "terminal-command-4",
-          message: "{clear} : clear terminal",
-          trigger: "terminal-command-5",
-        },
-        {
-          id: "terminal-command-5",
-          message: "{cat <filename>} : to open file",
-          trigger: "choice-msg",
-        },
-        {
           id: "azure-help",
           message: "The company's database is stored in Azure. You need to access it to find the hacker's IP.",
-          trigger: "azure-help-commands",
+          trigger: "azure-commands-msg",
         },
         {
-          id: "azure-help-commands",
-          message: "Here are the several commands(enclosed in {}) you can use:",
-          trigger: "azure-command-1",
+          id: "azure-commands-msg",
+          message: "Here are the several commands you can use:",
+          trigger: "azure-commands-table",
         },
         {
-          id: "azure-command-1",
-          message: "{show tables} : Show all tables stored in database",
-          trigger: "azure-command-2",
-        },
-        {
-          id: "azure-command-2",
-          message: "{select * from <table-name>} : Select all records from a table",
-          trigger: "azure-command-3",
-        },
-        {
-          id: "azure-command-3",
-          message: "{describe <table-name>} : Describe the table",
+          id: "azure-commands-table",
+          component: <AzureCommandTable/>,
           trigger: "choice-msg",
         },
         {
           id: "hacker-input",
           user: true,
           trigger: (inputValue) => {
-            if (inputValue.value === "Heidi") {
+            if (inputValue.value.toLowerCase() === "heidi") {
               return "congo-msg";
             } else {
               return "wrong-ans";
@@ -707,6 +671,35 @@ const CommandTable = () => {
     { command: "3. ls-a", function: " : list all files (including hidden)" },
     { command: "4. clear", function: " : clear terminal" },
     { command: "5. cat <filename>", function: " : to open file" }
+  ];
+
+  return (
+    <div className="table-responsive" style={{ overflowX: "auto" }}>
+      <table className="table text-nowrap">
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          {commands.map((row, index) => (
+            <tr key={index}>
+              <td>{row.command}</td>
+              <td>{row.function}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const AzureCommandTable = () => {
+  const commands = [
+    { command: "1. show tables", function: " : Show all tables stored in database" },
+    { command: "2. select * from <table-name>", function: " : Select all records from a table" },
+    { command: "3. describe <table-name>", function: " : Describe the table" },
   ];
 
   return (

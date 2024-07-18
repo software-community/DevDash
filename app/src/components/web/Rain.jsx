@@ -203,8 +203,8 @@ const Rain = () => {
           <div className="w-11/12 mx-auto mt-5 text-center items-center justify-center text-xl z-20 p-1 text-green-400 custom-text-shadow font-vt323 overflow-y-auto">
             In the heart of New York City's financial network, JP Morgan's servers
             have been compromised by a massive data breach via a Cross-Site
-            Scripting (XSS) attack. Date of Attack - 15/07/24 Time of Attack - 22:00
-            to 23:00 (GMT) Initial investigations point to a troubling origin: a
+            Scripting (XSS) attack. Date of Attack - 15/07/24 Time of Attack - 2200
+            to 2300hrs (GMT) Initial investigations point to a troubling origin: a
             small group of hackers masquerading as employees in EuroBank, a respected
             European banking institution, are misusing the company's network.
             EuroBank has refused to participate in the investigation with British

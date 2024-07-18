@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ohMyGoddo from "../assets/ohMyGoddo.png";
 import { useWindowContext } from "../contexts/TerminalContext";
+import AnimatedPageHorizontal from "./AnimatedPageHorizontal";
 // import "./Browser.css"; // Import the CSS file for the Browser component
 
 const Browser = () => {
@@ -74,7 +75,7 @@ const Browser = () => {
       output = `Invalid URL: ${trimmedUrl}`;
     }
 
-    if (typeof output === "object" && output.Host) {
+    if (typeof output === "object" && output.host) {
       setCurrentContent(formatEurobankInfo(output));
     } else if (typeof output === "object" && output.type === "image") {
       setCurrentContent(<img src={output.src} alt="Browser content" />);
@@ -90,7 +91,8 @@ const Browser = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white p-4 rounded-md h-full flex flex-col">
+    // <AnimatedPageHorizontal>
+    <div className="bg-gray-900 text-white p-4 rounded-md h-lvh flex flex-col">
       <form onSubmit={handleNavigate} className="flex mb-4">
         <input
           type="text"
@@ -111,6 +113,7 @@ const Browser = () => {
         {currentContent}
       </div>
     </div>
+    // {/* </AnimatedPageHorizontal> */}
   );
 };
 

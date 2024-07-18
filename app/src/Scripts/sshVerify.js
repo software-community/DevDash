@@ -25,7 +25,7 @@ const sshCredentials = { // if change here, do in Browser.jsx as well
         return "Incorrect port";
       }
   
-      return "Congo you won 100M dollars";
+      return "Verification successful.";
     } else {
       return "SSH Syntax error";
     }
