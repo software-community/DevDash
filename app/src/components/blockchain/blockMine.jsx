@@ -431,13 +431,6 @@ const BlockMine = ({ timer, setTimer, goToNextStep, entryNumber}) => {
                         <p className='text-white text-4xl font-bold'>{percentage}%</p>
                     </div>
                 )}
-                            <button
-        className="mt-5 bg-blue-700 text-white px-4 py-2 rounded-lg"
-        onClick={goToNextStep}
-      >
-        Back
-      </button>
-
             </div>
             <HelpBot level={'blockmine'} />
         </AnimatedPage>

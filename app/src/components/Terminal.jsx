@@ -1,12 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import "./Terminal.css"; // Import the CSS file for the Terminal component
 import sshVerify from "../Scripts/sshVerify"; // Import the SSH verification function
 import Notepad from "./Notepad";
+import { useWindowContext } from "../contexts/TerminalContext";
 
 const Terminal = () => {
+
+  const { terminalHistory, setTerminalHistory, sshVerified, setSshVerified } = useWindowContext();
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState([]);
-  const [sshVerified, setSshVerified] = useState(false);
+  // const [history, setHistory] = useState([]);
+  // const [sshVerified, setSshVerified] = useState(false);
   const [notepadContent, setNotepadContent] = useState('');
   const [isNotepadOpen, setIsNotepadOpen] = useState(false);
   const terminalRef = useRef(null);
@@ -19,7 +22,7 @@ const Terminal = () => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
-  }, [history]);
+  }, [terminalHistory]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,7 +31,7 @@ const Terminal = () => {
 
     if (command.startsWith('ssh')) {
       output = sshVerify(command);
-      if (output === 'Congo you won 100M dollars, not really though.') {
+      if (output === 'Congo you won 100M dollars') {
         setSshVerified(true);
       } else {
         setSshVerified(false);
@@ -37,11 +40,11 @@ const Terminal = () => {
       output = executeCommand(command);
     }
 
-    setHistory([...history, { command, output }]);
+    setTerminalHistory([...terminalHistory, { command, output }]);
     setInput('');
 
     if (command === 'clear') {
-      setHistory([]);
+      setTerminalHistory([]);
       setIsNotepadOpen(false);
     }
   };
@@ -87,7 +90,7 @@ const Terminal = () => {
       />
       ) : (
         <div className="history" ref={terminalRef}>
-          {history.map((item, index) => (
+          {terminalHistory.map((item, index) => (
             <div key={index}>
               <div className="command">{`> ${item.command}`}</div>
               <div className="output">{renderOutput(item.output)}</div>

@@ -83,7 +83,7 @@ const Blockchain = ({ timer, setTimer, goToNextStep }) => {
           <AnimatePresence>
             {isPaperVisible && (
               <motion.div
-                className="z-30 absolute top-0 bg-white w-[70vw] h-[15vh] flex justify-center items-center flex-col md:w-[20vw] shadow-lg rounded-md p-4"
+                className="z-30 absolute top-0 bg-white w-[70vw] h-auto flex justify-center items-center flex-col md:w-[20vw] shadow-lg rounded-md p-4"
                 initial={{ y: 0, opacity: 0 }}
                 animate={{ y: -180, opacity: 1, transition: { delay: 0.5, duration: 0.5 } }}
                 exit={{ x: 100, opacity: 0, transition: { duration: 0.2 } }}
