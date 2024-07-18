@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useWindowContext } from "../contexts/TerminalContext";
+import AnimatedPageHorizontal from "./AnimatedPageHorizontal";
 
 const MySQLTerminal = () => {
   const { mysqlHistory, setMysqlHistory, authenticated, setAuthenticated } = useWindowContext();
@@ -264,7 +265,8 @@ const MySQLTerminal = () => {
 
   if (!authenticated) {
     return (
-      <div className="bg-black text-white p-4 h-full flex flex-col items-center justify-center">
+      <AnimatedPageHorizontal>
+      <div className="bg-black text-white p-4 h-lvh flex flex-col items-center justify-center">
         <div className="mb-4 text-lg font-bold">Authenticate to proceed</div>
         <form onSubmit={handleLogin} className="flex flex-col">
           <input
@@ -290,11 +292,13 @@ const MySQLTerminal = () => {
           </button>
         </form>
       </div>
+      </AnimatedPageHorizontal>
     );
   }
 
   return (
-    <div className="bg-black text-white p-4 h-full flex flex-col">
+    <AnimatedPageHorizontal>
+    <div className="bg-black text-white p-4 h-lvh flex flex-col">
       <div className="overflow-y-auto flex-grow">
         {mysqlHistory.map((entry, index) => (
           <div key={index}>
@@ -304,18 +308,20 @@ const MySQLTerminal = () => {
             </div>
           </div>
         ))}
-      </div>
-      <form onSubmit={handleSubmit} className="mt-2 flex">
+        <form onSubmit={handleSubmit} className="mt-2 flex">
         <span className="prompt">{">"}</span>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="bg-gray-800 text-white flex-grow px-2 py-1 ml-2 rounded focus:outline-none"
+          className="bg-black text-white flex-grow rounded focus:outline-none"
           autoFocus
         />
       </form>
+      </div>
+      
     </div>
+    </AnimatedPageHorizontal>
   );
 };
 

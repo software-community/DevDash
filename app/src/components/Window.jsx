@@ -4,6 +4,7 @@ import Browser from "./Browser";
 import MySQLTerminal from "./DataExplorer";
 import HelpBot from "./HelpBot";
 import { useLocation } from "react-router-dom";
+import AnimatedPageHorizontal from "./AnimatedPageHorizontal";
 
 
 const Window = () => {
@@ -38,6 +39,7 @@ const Window = () => {
   };
 
   return (
+    <AnimatedPageHorizontal>
       <div className="h-screen w-screen flex flex-col bg-gray-900 text-white">
         <div className="flex justify-between items-center bg-gray-800 text-white p-2">
           <span className="text-lg font-bold">{components[currentComponentIndex].name}</span>
@@ -48,11 +50,13 @@ const Window = () => {
             Switch to {components[(currentComponentIndex + 1) % components.length].name}
           </button>
         </div>
+
         <div className=" bg-gray-900 h-full">
           {components[currentComponentIndex].component}
         </div>
         <HelpBot level={2} entryNumber={entryNumber} timer={timer} setTimer={setTimer} />
       </div>
+    </AnimatedPageHorizontal>
   );
 };
 

@@ -3,6 +3,7 @@ import "./Terminal.css"; // Import the CSS file for the Terminal component
 import sshVerify from "../Scripts/sshVerify"; // Import the SSH verification function
 import Notepad from "./Notepad";
 import { useWindowContext } from "../contexts/TerminalContext";
+import AnimatedPageHorizontal from "./AnimatedPageHorizontal";
 
 const Terminal = () => {
 
@@ -31,7 +32,7 @@ const Terminal = () => {
 
     if (command.startsWith('ssh')) {
       output = sshVerify(command);
-      if (output === 'Congo you won 100M dollars') {
+      if (output === 'Verification successful.') {
         setSshVerified(true);
       } else {
         setSshVerified(false);
@@ -58,8 +59,8 @@ const Terminal = () => {
       case 'ls':
         return sshVerified ? 'No files found' : 'Please verify SSH first by running the ssh command.';
       case 'ls-a':
-        return sshVerified ? 'hidden files found: heheheha' : 'Please verify SSH first by running the ssh command.';
-      case 'cat heheheha':
+        return sshVerified ? 'Hidden files found:\n azureCreds' : 'Please verify SSH first by running the ssh command.';
+      case 'cat azureCreds':
         if (sshVerified) {
           setNotepadContent(fileContent);
           setIsNotepadOpen(true);
@@ -81,12 +82,13 @@ const Terminal = () => {
   };
 
   return (
+    <AnimatedPageHorizontal>
       <div className="terminal">
         {isNotepadOpen ? (
         <Notepad
         content={notepadContent}
         onClose={() => setIsNotepadOpen(false)}
-        fileName={"heheheha.txt"}
+        fileName={"azureCreds.txt"}
       />
       ) : (
         <div className="history" ref={terminalRef}>
@@ -111,6 +113,7 @@ const Terminal = () => {
         </form>
       )}
       </div>
+    </AnimatedPageHorizontal>
   );
 };
 
