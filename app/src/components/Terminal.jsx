@@ -58,7 +58,7 @@ const Terminal = () => {
     switch (command) {
       case 'ls':
         return sshVerified ? 'No files found' : 'Please verify SSH first by running the ssh command.';
-      case 'ls-a':
+      case 'ls -a':
         return sshVerified ? 'Hidden files found:\n azureCreds' : 'Please verify SSH first by running the ssh command.';
       case 'cat azureCreds':
         if (sshVerified) {

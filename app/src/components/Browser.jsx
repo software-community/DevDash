@@ -6,7 +6,7 @@ import AnimatedPageHorizontal from "./AnimatedPageHorizontal";
 
 const Browser = () => {
   // const [url, setUrl] = useState("");
-  const { url, setUrl, currentContent, setCurrentContent } = useWindowContext();
+  const { url, setUrl, currentContent, setCurrentContent, credAccessed, setCredAccessed } = useWindowContext();
   const [history, setHistory] = useState([]);
   // const [currentContent, setCurrentContent] = useState("Welcome to the Browser! Enter a URL to get started.");
 
@@ -58,6 +58,7 @@ const Browser = () => {
       return;
     }
     
+    
     if (!trimmedUrl.startsWith("https://") && !trimmedUrl.startsWith("http://")) {
       if (trimmedUrl.startsWith("www.")) {
         trimmedUrl = "https://" + trimmedUrl;
@@ -66,6 +67,11 @@ const Browser = () => {
         trimmedUrl = "https://www." + trimmedUrl;
         setUrl("https://www." + url);
       }
+    }
+
+    if (trimmedUrl === "https://www.eurobank.eu/files"){
+      setCredAccessed(true);
+      console.log('heklloo')
     }
 
     let output;
@@ -99,7 +105,7 @@ const Browser = () => {
           value={url}
           onChange={handleChange}
           className="bg-gray-800 text-white flex-grow px-2 py-1 rounded-md"
-          placeholder="Enter URL"
+          placeholder="eurobank.eu/"
           autoFocus
         />
         <button

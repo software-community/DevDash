@@ -6,7 +6,7 @@ const sshCredentials = { // if change here, do in Browser.jsx as well
   };
   
   const sshVerify = (userInput) => {
-    const pattern = /ssh\s+(?<username>[^@]+)@(?<host>[^\s]+)\s+-p\s+(?<port>\d+)\s+=>\s+(?<password>.+)/;
+    const pattern = /ssh\s+(?<username>[^@]+)@(?<host>[^\s]+)\s+-p\s+(?<port>\d+)/;
     const match = userInput.match(pattern);
   
     if (match) {
@@ -17,9 +17,6 @@ const sshCredentials = { // if change here, do in Browser.jsx as well
       }
       if (host !== sshCredentials.host) {
         return "Invalid host";
-      }
-      if (password !== sshCredentials.password) {
-        return "Incorrect password";
       }
       if (port !== sshCredentials.port) {
         return "Incorrect port";

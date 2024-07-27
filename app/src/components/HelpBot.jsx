@@ -4,6 +4,7 @@ import alluArjun from "../assets/alluArjun.png";
 import ohMyGoddo from "../assets/ohMyGoddo.png";
 import { useNavigate } from "react-router-dom";
 import { SampleContext } from "../contexts/URLContext";
+import { useWindowContext } from "../contexts/TerminalContext";
 
 function sha256(ascii) {
   function rightRotate(value, amount) {
@@ -421,7 +422,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: 6,
-          message: "4. Convert every odd number to its letter equivalent.",
+          message: "4. Convert every odd number to its letter equivalent. Keep the letters lowercase.",
           trigger: 7,
         },
         {
@@ -497,7 +498,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: 'step-3',
-          message: "3. Merge this with the numbers and pass it through SHA-256.",
+          message: "3. Add numbers to the end(in order) of this encryption and pass it through SHA-256.",
           trigger: "steps-done",
         },
         {
@@ -574,24 +575,24 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "caeser-string-input",
           user: true,
-          trigger: "caeser-shift-msg",
-        },
-        {
-          id: "caeser-shift-msg",
-          message: "Enter the shift number:",
-          trigger: "caeser-shift-input",
-        },
-        {
-          id: "caeser-shift-input",
-          user: true,
-          validator: (value) => {
-            if (isNaN(value)) {
-              return "Please enter a valid number.";
-            }
-            return true;
-          },
           trigger: "caeser-computation",
         },
+        // {
+        //   id: "caeser-shift-msg",
+        //   message: "Enter the shift number:",
+        //   trigger: "caeser-shift-input",
+        // },
+        // {
+        //   id: "caeser-shift-input",
+        //   user: true,
+        //   validator: (value) => {
+        //     if (isNaN(value)) {
+        //       return "Please enter a valid number.";
+        //     }
+        //     return true;
+        //   },
+        //   trigger: "caeser-computation",
+        // },
         {
           id: "caeser-computation",
           component: <CaeserCipherComponent />,
@@ -632,7 +633,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         contentStyle={{ background: theme.background }}
         botAvatar={alluArjun}
         userAvatar={ohMyGoddo}
-        headerTitle="HelpBot"
+        headerTitle="Mr. Perfect"
         hideUserAvatar={true}
         customStyle={{
           backgroundColor: theme.background,
@@ -646,7 +647,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
 const CaeserCipherComponent = ({ steps }) => {
   const caeserString = caeserCipher(
     steps["caeser-string-input"].value,
-    steps["caeser-shift-input"].value
+    3
   );
   return (
     <div style={{ wordWrap: "break-word", whiteSpace: "pre-wrap" }}>
@@ -665,10 +666,13 @@ const SHA256Component = ({ previousStep }) => {
 };
 
 const CommandTable = () => {
+  
+  const {credAccessed, setCredAccessed} = useWindowContext();
   const commands = [
     { command: "1. ssh <username>@<host> -p <port> => <password>", function: " : to files access" },
+    // { command: "   ssh admin@localhost -p 1234 => bankEuro", function: "" },
     { command: "2. ls", function: " : list files" },
-    { command: "3. ls-a", function: " : list all files (including hidden)" },
+    { command: "3. ls -a", function: " : list all files (including hidden)" },
     { command: "4. clear", function: " : clear terminal" },
     { command: "5. cat <filename>", function: " : to open file" }
   ];
@@ -683,8 +687,12 @@ const CommandTable = () => {
           </tr>
         </thead>
         <tbody>
+        { credAccessed ? <tr> <td>ssh admin@localhost -p 1234 =&gt; bankEuro </td></tr> : <tr> <td> You haven't accessed SSH creds yet! </td></tr>}
+
           {commands.map((row, index) => (
+            
             <tr key={index}>
+              
               <td>{row.command}</td>
               <td>{row.function}</td>
             </tr>
