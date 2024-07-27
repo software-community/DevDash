@@ -18,6 +18,9 @@ const sshCredentials = { // if change here, do in Browser.jsx as well
       if (host !== sshCredentials.host) {
         return "Invalid host";
       }
+      if (password !== sshCredentials.password) {
+        return "Incorrect password";
+      }
       if (port !== sshCredentials.port) {
         return "Incorrect port";
       }

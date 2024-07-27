@@ -248,7 +248,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: 5,
-          message: "And remember, the hacking took place on 15th August 2021, between 2200 to 2300 hours GMT.",
+          message: "And remember, the hacking took place on 15th August 2024, between 2200 to 2300 hours GMT.",
           trigger: "choice-msg",
         },
         {
