@@ -6,7 +6,7 @@ const sshCredentials = { // if change here, do in Browser.jsx as well
   };
   
   const sshVerify = (userInput) => {
-    const pattern = /ssh\s+(?<username>[^@]+)@(?<host>[^\s]+)\s+-p\s+(?<port>\d+)/;
+    const pattern = /ssh\s+(?<username>[^@]+)@(?<host>[^\s]+)\s+-p\s+(?<port>\d+)\s+=>\s+(?<password>.+)/;
     const match = userInput.match(pattern);
   
     if (match) {
