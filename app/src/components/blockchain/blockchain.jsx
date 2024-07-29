@@ -27,7 +27,7 @@ const Blockchain = ({ timer, setTimer, goToNextStep }) => {
   useEffect(() => {
     // let savedData = JSON.parse(localStorage.getItem('pvtKey'));
     // if (!savedData || savedData.trim().length === 0) {
-      let generatedPvtKey = genPvtKey(5);
+      let generatedPvtKey = genPvtKey(6);
       localStorage.setItem('pvtKey', JSON.stringify(generatedPvtKey));
     
     let savedData = JSON.parse(localStorage.getItem('pvtKey'));

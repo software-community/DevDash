@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import ohMyGoddo from "../assets/ohMyGoddo.png";
 import { useWindowContext } from "../contexts/TerminalContext";
+import AnimatedPageHorizontal from "./AnimatedPageHorizontal";
 // import "./Browser.css"; // Import the CSS file for the Browser component
 
 const Browser = () => {
   // const [url, setUrl] = useState("");
-  const { url, setUrl, currentContent, setCurrentContent } = useWindowContext();
+  const { url, setUrl, currentContent, setCurrentContent, credAccessed, setCredAccessed } = useWindowContext();
   const [history, setHistory] = useState([]);
   // const [currentContent, setCurrentContent] = useState("Welcome to the Browser! Enter a URL to get started.");
 
@@ -57,6 +58,7 @@ const Browser = () => {
       return;
     }
     
+    
     if (!trimmedUrl.startsWith("https://") && !trimmedUrl.startsWith("http://")) {
       if (trimmedUrl.startsWith("www.")) {
         trimmedUrl = "https://" + trimmedUrl;
@@ -67,6 +69,11 @@ const Browser = () => {
       }
     }
 
+    if (trimmedUrl === "https://www.eurobank.eu/files"){
+      setCredAccessed(true);
+      console.log('heklloo')
+    }
+
     let output;
     if (urlMappings[trimmedUrl]) {
       output = urlMappings[trimmedUrl];
@@ -74,7 +81,7 @@ const Browser = () => {
       output = `Invalid URL: ${trimmedUrl}`;
     }
 
-    if (typeof output === "object" && output.Host) {
+    if (typeof output === "object" && output.host) {
       setCurrentContent(formatEurobankInfo(output));
     } else if (typeof output === "object" && output.type === "image") {
       setCurrentContent(<img src={output.src} alt="Browser content" />);
@@ -90,14 +97,15 @@ const Browser = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-white p-4 rounded-md h-full flex flex-col">
+    // <AnimatedPageHorizontal>
+    <div className="bg-gray-900 text-white p-4 rounded-md h-lvh flex flex-col">
       <form onSubmit={handleNavigate} className="flex mb-4">
         <input
           type="text"
           value={url}
           onChange={handleChange}
           className="bg-gray-800 text-white flex-grow px-2 py-1 rounded-md"
-          placeholder="Enter URL"
+          placeholder="eurobank.eu/"
           autoFocus
         />
         <button
@@ -111,6 +119,7 @@ const Browser = () => {
         {currentContent}
       </div>
     </div>
+    // {/* </AnimatedPageHorizontal> */}
   );
 };
 

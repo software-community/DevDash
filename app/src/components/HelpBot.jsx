@@ -4,6 +4,7 @@ import alluArjun from "../assets/alluArjun.png";
 import ohMyGoddo from "../assets/ohMyGoddo.png";
 import { useNavigate } from "react-router-dom";
 import { SampleContext } from "../contexts/URLContext";
+import { useWindowContext } from "../contexts/TerminalContext";
 
 function sha256(ascii) {
   function rightRotate(value, amount) {
@@ -232,7 +233,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: 2,
           message:
-            "We have three tools in our arsenal: a minimalist text-based browser, a terminal, and an Azure cloud service.",
+            "We have three tools in our arsenal: a minimalist text-based browser, a terminal, and Azure cloud service.",
           trigger: 3,
         },
         {
@@ -243,7 +244,12 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: 4,
           message: "The company's url is eurobank.eu. It should help you get started. Good luck!",
-          trigger: "choice-msg"
+          trigger: 5
+        },
+        {
+          id: 5,
+          message: "And remember, the hacking took place on 15th August 2024, between 2200 to 2300 hours GMT.",
+          trigger: "choice-msg",
         },
         {
           id: "choice-msg",
@@ -288,7 +294,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: "browser-help-extra",
-          message: "Try adding /files to the end of the url to access the files.",
+          message: "Try adding /files to the end of the url to access the company's files.",
           trigger: "choice-msg",
         },
         {
@@ -302,66 +308,25 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
           trigger: "choice-msg",
         },
         {
-          id: "terminal-help-commands",
-          message: "Here are the several commands(enclosed in {}) that would be of help:",
-          trigger: "terminal-command-1",
-        },
-        {
-          id: "terminal-command-1",
-          message:
-            "{ssh <username>@<host> -p <port> => <password>} : to files access",
-          trigger: "terminal-command-2",
-        },
-        {
-          id: "terminal-command-2",
-          message: "{ls} : list files",
-          trigger: "terminal-command-3",
-        },
-        {
-          id: "terminal-command-3",
-          message: "{ls-a} : list all files (including hidden)",
-          trigger: "terminal-command-4",
-        },
-        {
-          id: "terminal-command-4",
-          message: "{clear} : clear terminal",
-          trigger: "terminal-command-5",
-        },
-        {
-          id: "terminal-command-5",
-          message: "{cat <filename>} : to open file",
-          trigger: "choice-msg",
-        },
-        {
           id: "azure-help",
           message: "The company's database is stored in Azure. You need to access it to find the hacker's IP.",
-          trigger: "azure-help-commands",
+          trigger: "azure-commands-msg",
         },
         {
-          id: "azure-help-commands",
-          message: "Here are the several commands(enclosed in {}) you can use:",
-          trigger: "azure-command-1",
+          id: "azure-commands-msg",
+          message: "Here are the several commands you can use:",
+          trigger: "azure-commands-table",
         },
         {
-          id: "azure-command-1",
-          message: "{show tables} : Show all tables stored in database",
-          trigger: "azure-command-2",
-        },
-        {
-          id: "azure-command-2",
-          message: "{select * from <table-name>} : Select all records from a table",
-          trigger: "azure-command-3",
-        },
-        {
-          id: "azure-command-3",
-          message: "{describe <table-name>} : Describe the table",
+          id: "azure-commands-table",
+          component: <AzureCommandTable/>,
           trigger: "choice-msg",
         },
         {
           id: "hacker-input",
           user: true,
           trigger: (inputValue) => {
-            if (inputValue.value === "Heidi") {
+            if (inputValue.value.toLowerCase() === "heidi") {
               return "congo-msg";
             } else {
               return "wrong-ans";
@@ -457,7 +422,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: 6,
-          message: "4. Convert every odd number to its letter equivalent.",
+          message: "4. Convert every odd number to its letter equivalent. Keep the letters lowercase.",
           trigger: 7,
         },
         {
@@ -533,7 +498,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         },
         {
           id: 'step-3',
-          message: "3. Merge this with the numbers and pass it through SHA-256.",
+          message: "3. Add numbers to the end(in order) of this encryption and pass it through SHA-256.",
           trigger: "steps-done",
         },
         {
@@ -610,24 +575,24 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         {
           id: "caeser-string-input",
           user: true,
-          trigger: "caeser-shift-msg",
-        },
-        {
-          id: "caeser-shift-msg",
-          message: "Enter the shift number:",
-          trigger: "caeser-shift-input",
-        },
-        {
-          id: "caeser-shift-input",
-          user: true,
-          validator: (value) => {
-            if (isNaN(value)) {
-              return "Please enter a valid number.";
-            }
-            return true;
-          },
           trigger: "caeser-computation",
         },
+        // {
+        //   id: "caeser-shift-msg",
+        //   message: "Enter the shift number:",
+        //   trigger: "caeser-shift-input",
+        // },
+        // {
+        //   id: "caeser-shift-input",
+        //   user: true,
+        //   validator: (value) => {
+        //     if (isNaN(value)) {
+        //       return "Please enter a valid number.";
+        //     }
+        //     return true;
+        //   },
+        //   trigger: "caeser-computation",
+        // },
         {
           id: "caeser-computation",
           component: <CaeserCipherComponent />,
@@ -668,7 +633,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
         contentStyle={{ background: theme.background }}
         botAvatar={alluArjun}
         userAvatar={ohMyGoddo}
-        headerTitle="HelpBot"
+        headerTitle="Mr. Perfect"
         hideUserAvatar={true}
         customStyle={{
           backgroundColor: theme.background,
@@ -682,7 +647,7 @@ const HelpBot = ({ level = 1, entryNumber, timer, setTimer}) => {
 const CaeserCipherComponent = ({ steps }) => {
   const caeserString = caeserCipher(
     steps["caeser-string-input"].value,
-    steps["caeser-shift-input"].value
+    3
   );
   return (
     <div style={{ wordWrap: "break-word", whiteSpace: "pre-wrap" }}>
@@ -701,12 +666,48 @@ const SHA256Component = ({ previousStep }) => {
 };
 
 const CommandTable = () => {
+  
+  const {credAccessed, setCredAccessed} = useWindowContext();
   const commands = [
     { command: "1. ssh <username>@<host> -p <port> => <password>", function: " : to files access" },
+    // { command: "   ssh admin@localhost -p 1234 => bankEuro", function: "" },
     { command: "2. ls", function: " : list files" },
-    { command: "3. ls-a", function: " : list all files (including hidden)" },
+    { command: "3. ls -a", function: " : list all files (including hidden)" },
     { command: "4. clear", function: " : clear terminal" },
     { command: "5. cat <filename>", function: " : to open file" }
+  ];
+
+  return (
+    <div className="table-responsive" style={{ overflowX: "auto" }}>
+      <table className="table text-nowrap">
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+        { credAccessed ? <tr> <td>ssh admin@localhost -p 1234 =&gt; bankEuro </td></tr> : <tr> <td> You haven't accessed SSH creds yet! </td></tr>}
+
+          {commands.map((row, index) => (
+            
+            <tr key={index}>
+              
+              <td>{row.command}</td>
+              <td>{row.function}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const AzureCommandTable = () => {
+  const commands = [
+    { command: "1. show tables", function: " : Show all tables stored in database" },
+    { command: "2. select * from <table-name>", function: " : Select all records from a table" },
+    { command: "3. describe <table-name>", function: " : Describe the table" },
   ];
 
   return (

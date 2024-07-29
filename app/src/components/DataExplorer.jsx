@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useWindowContext } from "../contexts/TerminalContext";
+import AnimatedPageHorizontal from "./AnimatedPageHorizontal";
 
 const MySQLTerminal = () => {
   const { mysqlHistory, setMysqlHistory, authenticated, setAuthenticated } = useWindowContext();
@@ -127,44 +128,44 @@ const MySQLTerminal = () => {
         result = [
           {
             Event_ID: "001",
-            URL: "eurobank.uk",
+            URL: "eurobank.eu",
             Employee_IP: "192.168.1.1",
-            Event_Date: "2024-07-15",
+            Event_Date: "2024-07-08",
             Event_Time: "21:30 GMT",
           },
           {
             Event_ID: "002",
-            URL: "eurobank.uk",
+            URL: "eurobank.eu",
             Employee_IP: "192.168.1.2",
-            Event_Date: "2024-07-15",
+            Event_Date: "2024-07-10",
             Event_Time: "21:45 GMT",
           },
           {
             Event_ID: "003",
-            URL: "eurobank.uk",
+            URL: "eurobank.eu",
             Employee_IP: "192.168.1.3",
-            Event_Date: "2024-07-15",
+            Event_Date: "2024-07-14",
             Event_Time: "22:00 GMT",
           },
           {
             Event_ID: "004",
-            URL: "eurobank.uk",
+            URL: "eurobank.eu",
             Employee_IP: "192.168.1.4",
             Event_Date: "2024-07-15",
             Event_Time: "19:30 GMT",
           },
           {
             Event_ID: "005",
-            URL: "eurobank.uk",
+            URL: "eurobank.eu",
             Employee_IP: "192.168.1.5",
             Event_Date: "2024-07-15",
             Event_Time: "20:45 GMT",
           },
           {
             Event_ID: "006",
-            URL: "otherbank.com",
+            URL: "axisbank.com",
             Employee_IP: "192.168.2.1",
-            Event_Date: "2024-07-15",
+            Event_Date: "2024-07-11",
             Event_Time: "21:30 GMT",
           },
           {
@@ -172,19 +173,19 @@ const MySQLTerminal = () => {
             URL:
               "https://www.google.com/search?q=how+to+get+gf&oq=how+to+get+gf",
             Employee_IP: "192.168.1.6",
-            Event_Date: "2024-07-15",
+            Event_Date: "2024-07-14",
             Event_Time: "22:55 GMT",
           },
           {
             Event_ID: "008",
-            URL: "eurobank.uk",
+            URL: "eurobank.eu",
             Employee_IP: "192.168.1.7",
             Event_Date: "2024-07-15",
             Event_Time: "21:10 GMT",
           },
           {
             Event_ID: "009",
-            URL: "someotherbank.com",
+            URL: "icicibank.com",
             Employee_IP: "192.168.3.1",
             Event_Date: "2024-07-15",
             Event_Time: "21:30 GMT",
@@ -192,7 +193,7 @@ const MySQLTerminal = () => {
           // culprit
           {
             Event_ID: "010",
-            URL: "eurobank.uk",
+            URL: "jpmorgan.com",
             Employee_IP: "192.168.1.8",
             Event_Date: "2024-07-15",
             Event_Time: "22:20 GMT",
@@ -264,7 +265,8 @@ const MySQLTerminal = () => {
 
   if (!authenticated) {
     return (
-      <div className="bg-black text-white p-4 h-full flex flex-col items-center justify-center">
+      <AnimatedPageHorizontal>
+      <div className="bg-black text-white p-4 h-lvh flex flex-col items-center justify-center">
         <div className="mb-4 text-lg font-bold">Authenticate to proceed</div>
         <form onSubmit={handleLogin} className="flex flex-col">
           <input
@@ -290,11 +292,13 @@ const MySQLTerminal = () => {
           </button>
         </form>
       </div>
+      </AnimatedPageHorizontal>
     );
   }
 
   return (
-    <div className="bg-black text-white p-4 h-full flex flex-col">
+    <AnimatedPageHorizontal>
+    <div className="bg-black text-white p-4 h-lvh flex flex-col">
       <div className="overflow-y-auto flex-grow">
         {mysqlHistory.map((entry, index) => (
           <div key={index}>
@@ -304,18 +308,20 @@ const MySQLTerminal = () => {
             </div>
           </div>
         ))}
-      </div>
-      <form onSubmit={handleSubmit} className="mt-2 flex">
+        <form onSubmit={handleSubmit} className="mt-2 flex">
         <span className="prompt">{">"}</span>
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="bg-gray-800 text-white flex-grow px-2 py-1 ml-2 rounded focus:outline-none"
+          className="bg-black text-white flex-grow rounded focus:outline-none"
           autoFocus
         />
       </form>
+      </div>
+      
     </div>
+    </AnimatedPageHorizontal>
   );
 };
 

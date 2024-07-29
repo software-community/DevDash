@@ -13,6 +13,7 @@ export const WindowProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [url, setUrl] = useState("");
   const [currentContent, setCurrentContent] = useState("Welcome to the Browser! Enter a URL to get started.");
+  const [credAccessed, setCredAccessed] = useState(false);
 
   return (
     <WindowContext.Provider value={{
@@ -21,7 +22,8 @@ export const WindowProvider = ({ children }) => {
       mysqlHistory, setMysqlHistory,
       authenticated, setAuthenticated,
       url, setUrl,
-      currentContent, setCurrentContent
+      currentContent, setCurrentContent,
+      credAccessed, setCredAccessed
     }}>
       {children}
     </WindowContext.Provider>

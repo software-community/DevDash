@@ -3,7 +3,7 @@
   color: white;
   padding: 10px;
   width: 100%; /* Set width to 100% to fill the container */
-  height: 100%; /* Set height to 100% to fill the container */
+  height: 100vh; /* Set height to 100% to fill the container */
   overflow-y: auto;
   font-family: monospace;
   flex-grow: 1;
@@ -16,7 +16,7 @@
   }
   
   .command {
-    color: lightgreen;
+    color: #90ee90;
   }
   
   .output {
@@ -35,7 +35,7 @@
   .input {
     flex-grow: 1;
     background-color: black;
-    color: white;
+    color: lightgreen;
     border: none;
     outline: none;
     font-family: monospace;
